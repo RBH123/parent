@@ -1,0 +1,31 @@
+server:
+  port: 10086
+spring:
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: 192.168.24.14:9876
+      kafka:
+        binder:
+          brokers: 192.168.24.14:9092
+      bindings:
+        rocketmqinput:
+          destination: test-rocketmq
+          content-type: application/json
+          group: rocketmq-group
+          binder: rocketmq
+        kafkainput:
+          destination: test-kafka
+          content-type: application/json
+          group: kafka-group
+          binder: kafka
+    nacos:
+      discovery:
+        group: nacos-consumer
+        server-addr: 192.168.24.14:8848
+        heart-beat-timeout: 90
+        heart-beat-interval: 30
+        namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
+        service: nacos-consumer
+#        register-enabled: true

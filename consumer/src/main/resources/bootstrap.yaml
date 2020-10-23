@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.24.14:8848
+        timeout: 3000
+        group: nacos-consumer
+        file-extension: yaml
+        name: nacos-consumer
+        encode: UTF-8
+        namespace: 2ca20bb8-f886-461b-8458-549dfba803c0

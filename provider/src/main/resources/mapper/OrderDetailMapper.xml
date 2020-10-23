@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ruan.demo.mapper.OrderDetailDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ruan.demo.entity.OrderDetail">
+        <id column="id" property="id"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="delivery_status" property="deliveryStatus"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="discount_amount" property="discountAmount"/>
+        <result column="reserve_amount" property="reserveAmount"/>
+        <result column="goods_count" property="goodsCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pay_status, delivery_status, order_status, total_amount, discount_amount, reserve_amount, create_time, update_time
+    </sql>
+
+    <insert id="insertBatch">
+        INSERT INTO order_detail
+        (id,pay_status,delivery_status,order_status,total_amount,discount_amount,reserve_amount,goods_count,create_time,update_time)
+        VALUES (
+        <foreach collection="orderDetailList" item="orderDetail" open="(" separator="," close=")">
+            #{id,jdbcType =BigInt},#{payStatus,jdbcType=tinyint},#{deliveryStatus,jdbcType=tinyint},#{orderStatus,jdbcType=jdbcType=tinyint},#{totalAmount,jdbcType=DECIMAL},
+            #{discountAmount,jdbcType=decimal},#{reserveAmount,jdbcType=decimal},#{goodsCount,jdbcType=bigint},now{},now{}
+        </foreach>
+        )
+    </insert>
+</mapper>
