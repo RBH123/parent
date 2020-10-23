@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ruan.common.util.SnowflakesUtil;
 import ruan.demo.entity.MessageRecord;
 import ruan.demo.kafka.product.KafkaProduct;
 import ruan.demo.mapper.MessageRecordDao;
 import ruan.demo.pojo.vo.MessageRecordVo;
 import ruan.demo.rocketmq.product.RocketMqProduct;
-import ruan.demo.util.SnowflakesUtil;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

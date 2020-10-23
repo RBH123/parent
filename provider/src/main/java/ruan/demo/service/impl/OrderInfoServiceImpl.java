@@ -21,7 +21,7 @@ import ruan.demo.mapper.OrderInfoDao;
 import ruan.demo.pojo.ao.OrderAo;
 import ruan.demo.pojo.ao.OrderInfoAo;
 import ruan.demo.service.OrderInfoService;
-import ruan.demo.util.SnowflakesUtil;
+import ruan.common.util.SnowflakesUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package ruan.demo;
+package ruan.common.util;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -17,11 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 自动生成代码
- */
 @Slf4j
-public class CodeGenerator {
+public class CodeGenerate {
 
     static String JAVA_PATH = "\\src\\main\\java";
     static String RESOURCES_PATH = "\\src\\main\\resources";
@@ -34,7 +31,7 @@ public class CodeGenerator {
     static String AO = "\\pojo\\ao";
     static String VO = "\\pojo\\vo";
 
-    public static void main(String[] args) {
+    public static void generate(String... args) {
         String property = System.getProperty("user.dir");
         AutoGenerator autoGenerator = new AutoGenerator();
         //全局配置
@@ -87,7 +84,7 @@ public class CodeGenerator {
         pathInfo.put(ConstVal.MAPPER_PATH, javaPath.concat(MAPPER));
         pathInfo.put(ConstVal.SERVICE_IMPL_PATH, javaPath.concat(SERVICE).concat("\\" + SERVICE_IMPL));
         pathInfo.put(ConstVal.ENTITY_PATH, javaPath.concat(ENTITY));
-        packageConfig.setParent("ruan.demo");
+        packageConfig.setParent("ruan.common");
         packageConfig.setPathInfo(pathInfo);
         autoGenerator.setPackageInfo(packageConfig);
         TemplateConfig templateConfig = new TemplateConfig();

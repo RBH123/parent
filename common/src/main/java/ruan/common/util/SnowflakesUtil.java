@@ -1,4 +1,4 @@
-package ruan.demo.util;
+package ruan.common.util;
 
 public class SnowflakesUtil {
 
