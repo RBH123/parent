@@ -1,4 +1,4 @@
-package consumer.demo;
+package ruan.consumer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

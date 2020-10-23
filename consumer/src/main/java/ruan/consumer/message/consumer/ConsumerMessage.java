@@ -1,6 +1,6 @@
-package consumer.demo.message.consumer;
+package ruan.consumer.message.consumer;
 
-import consumer.demo.message.config.Sink;
+import ruan.consumer.message.config.Sink;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;

@@ -1,4 +1,4 @@
-package consumer.demo.message.config;
+package ruan.consumer.message.config;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;
