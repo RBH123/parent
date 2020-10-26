@@ -1,4 +1,4 @@
-package ruan.provider.pojo.ao;
+package ruan.provider.pojo.vo;
 
 import lombok.*;
 import lombok.EqualsAndHashCode;
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
-* 
+* 库存流水明细
 *
 * @author ruan
 * @since 2020-10-26
@@ -16,20 +16,24 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MessageRecordAo implements Serializable {
+public class InventoryDetailVo implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
     * 主键id
     */
     private Long id;
     /**
-    * 消息信息
+    * 商品id
     */
-    private String message;
+    private Long goodsId;
     /**
-    * 消息状态
+    * 商品数量
     */
-    private Integer status;
+    private Long goodsCount;
+    /**
+    * 操作人id
+    */
+    private Long operatorPerson;
     /**
     * 创建时间
     */
@@ -40,8 +44,9 @@ public class MessageRecordAo implements Serializable {
     private Timestamp updateTime;
 
     public static final String ID = "id";
-    public static final String MESSAGE = "message";
-    public static final String STATUS = "status";
+    public static final String GOODS_ID = "goods_id";
+    public static final String GOODS_COUNT = "goods_count";
+    public static final String OPERATOR_PERSON = "operator_person";
     public static final String CREATE_TIME = "create_time";
     public static final String UPDATE_TIME = "update_time";
 }

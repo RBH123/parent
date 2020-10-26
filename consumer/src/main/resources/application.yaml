@@ -20,6 +20,11 @@ spring:
           content-type: application/json
           group: kafka-group
           binder: kafka
+        create-order:
+          destination: create-order
+          content-type: application/json
+          group: kafka-group
+          binder: kafka
     nacos:
       discovery:
         group: nacos-consumer

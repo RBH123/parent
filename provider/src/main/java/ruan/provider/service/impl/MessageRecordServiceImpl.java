@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author ruan
- * @since 2020-10-20
+ * @since 2020-10-26
  */
 @Service
 public class MessageRecordServiceImpl extends ServiceImpl<MessageRecordDao, MessageRecord> implements MessageRecordService {

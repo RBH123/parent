@@ -1,15 +1,16 @@
 package ruan.provider.pojo.vo;
 
 import lombok.*;
-
+import lombok.EqualsAndHashCode;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
 * 
 *
 * @author ruan
-* @since 2020-10-20
+* @since 2020-10-26
 */
 @Data
 @AllArgsConstructor

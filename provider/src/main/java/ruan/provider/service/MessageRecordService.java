@@ -1,7 +1,7 @@
 package ruan.provider.service;
 
-import ruan.provider.entity.MessageRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
+import ruan.provider.entity.MessageRecord;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author ruan
- * @since 2020-10-20
+ * @since 2020-10-26
  */
 public interface MessageRecordService extends IService<MessageRecord> {
 

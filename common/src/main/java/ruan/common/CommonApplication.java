@@ -2,6 +2,7 @@ package ruan.common;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ruan.common.util.CodeGenerate;
 
 @SpringBootApplication
 public class CommonApplication {

@@ -9,10 +9,14 @@ public interface Sink {
 
     String ROCKETMQ_INPUT = "rocketmqinput";
     String KAFKAINPUT = "kafkainput";
+    String CREATEORDER = "create-order";
 
     @Input(ROCKETMQ_INPUT)
     SubscribableChannel rocketmqInput();
 
     @Input(KAFKAINPUT)
     SubscribableChannel kafkaInput();
+
+    @Input(CREATEORDER)
+    SubscribableChannel createOrderInput();
 }

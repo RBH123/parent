@@ -26,13 +26,12 @@ public class CodeGenerate {
     static String SERVICE = "\\service";
     static String MAPPER = "\\mapper";
     static String SERVICE_IMPL = "\\impl";
-    static String PROJECT_PATH = "\\ruan\\demo";
+    static String PROJECT_PATH = "\\ruan\\common";
     static String ENTITY = "\\entity";
     static String AO = "\\pojo\\ao";
     static String VO = "\\pojo\\vo";
 
-    public static void generate(String... args) {
-        String property = System.getProperty("user.dir");
+    public static void generate(String property, String projectPath, String[] tableNames) {
         AutoGenerator autoGenerator = new AutoGenerator();
         //全局配置
         GlobalConfig config = new GlobalConfig();
@@ -73,11 +72,11 @@ public class CodeGenerate {
         strategyConfig.setControllerMappingHyphenStyle(true);
         strategyConfig.setColumnNaming(NamingStrategy.underline_to_camel);
         strategyConfig.setLogicDeleteFieldName("is_deleted");
-        strategyConfig.setInclude(new String[]{"goods_info"});
+        strategyConfig.setInclude(tableNames);
         autoGenerator.setStrategy(strategyConfig);
         PackageConfig packageConfig = new PackageConfig();
         Map<String, String> pathInfo = new HashMap<>();
-        String javaPath = property.concat(JAVA_PATH).concat(PROJECT_PATH);
+        String javaPath = property.concat(JAVA_PATH).concat(projectPath);
         pathInfo.put(ConstVal.XML_PATH, property.concat(RESOURCES_PATH).concat(MAPPER));
         pathInfo.put(ConstVal.CONTROLLER_PATH, javaPath.concat(CONTROLLER));
         pathInfo.put(ConstVal.SERVICE_PATH, javaPath.concat(SERVICE));

@@ -1,9 +1,11 @@
-package ruan.provider.pojo.ao;
+package ruan.consumer.pojo;
 
-import lombok.*;
-import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
@@ -16,7 +18,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MessageRecordAo implements Serializable {
+public class MessageRecordVo implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
     * 主键id
