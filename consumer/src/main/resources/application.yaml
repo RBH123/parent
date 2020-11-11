@@ -33,4 +33,3 @@ spring:
         heart-beat-interval: 30
         namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
         service: nacos-consumer
-#        register-enabled: true

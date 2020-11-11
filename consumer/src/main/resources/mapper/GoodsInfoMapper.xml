@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ruan.common.mapper.GoodsInfoDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ruan.common.entity.GoodsInfo">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="color" property="color"/>
+        <result column="size" property="size"/>
+        <result column="tag" property="tag"/>
+        <result column="share_url" property="shareUrl"/>
+        <result column="images" property="images"/>
+        <result column="price" property="price"/>
+        <result column="sales" property="sales"/>
+        <result column="is_recommended" property="isRecommended"/>
+        <result column="guarantee" property="guarantee"/>
+        <result column="streamer" property="streamer"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="inventory_count" property="inventoryCount"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name,
+        desc, color, size, tag, share_url, images, price, sales, is_recommended, guarantee, streamer, create_time, update_time, inventory_count, status
+    </sql>
+
+    <select id="getGoodsCountByIdList" resultMap="BaseResultMap">
+        SELECT id,goods_count FROM goods_info WHERE id IN (
+        <foreach collection="goodsIdList" item="goodsId" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+        )
+    </select>
+</mapper>

@@ -1,10 +1,12 @@
 package ruan.common.common;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
+@Slf4j
 @Data
 public class CommonResult implements Serializable {
 
@@ -49,7 +51,7 @@ public class CommonResult implements Serializable {
         return commonResult;
     }
 
-    public String toJson() {
-        return JSONObject.toJSONString(commonResult);
+    public Object toJson() {
+        return JSON.toJSON(commonResult);
     }
 }

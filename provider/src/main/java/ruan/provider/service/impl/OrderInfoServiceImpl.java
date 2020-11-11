@@ -10,19 +10,21 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import ruan.provider.entity.MessageRecord;
-import ruan.provider.mapper.MessageRecordDao;
+import ruan.common.service.impl.ZookeeperDistributedLock;
+import ruan.common.util.SnowflakesUtil;
 import ruan.provider.constant.RedisKeyConstant;
+import ruan.provider.entity.MessageRecord;
 import ruan.provider.entity.OrderDetail;
 import ruan.provider.entity.OrderInfo;
 import ruan.provider.kafka.product.KafkaProduct;
+import ruan.provider.mapper.MessageRecordDao;
 import ruan.provider.mapper.OrderDetailDao;
 import ruan.provider.mapper.OrderInfoDao;
 import ruan.provider.pojo.ao.OrderAo;
 import ruan.provider.pojo.ao.OrderInfoAo;
 import ruan.provider.service.OrderInfoService;
-import ruan.common.util.SnowflakesUtil;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +53,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfo> i
     private MessageRecordDao messageRecordDao;
     @Autowired
     private KafkaProduct kafkaProduct;
-    @Autowired
-    private ZookeeperDistributedLockImpl zookeeperDistributedLock;
+    @Resource
+    private ZookeeperDistributedLock zookeeperDistributedLock;
 
     @Override
     @SneakyThrows

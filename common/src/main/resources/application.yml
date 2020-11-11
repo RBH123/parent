@@ -58,6 +58,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
   jackson:
     default-property-inclusion: non_null
+    date-format: java.text.SimpleDateFormat
   redis:
     host: 192.168.24.14
     lettuce:

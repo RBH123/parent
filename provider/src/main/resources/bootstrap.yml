@@ -12,3 +12,8 @@ spring:
         max-retry: 3
         timeout: 3000
         server-addr: 192.168.24.14:8848
+feign:
+  httpclient:
+    connection-timeout: 500
+    enabled: true
+    max-connections: 200

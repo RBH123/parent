@@ -1,23 +1,26 @@
 package ruan.common.service.impl;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import ruan.common.config.DistributeLockWatch;
 import ruan.common.constant.DistributedConstant;
-import ruan.common.service.ZookeeperDistributedLock;
 
 import java.rmi.ServerException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public class ZookeeperDistributedLockImpl implements ZookeeperDistributedLock {
+@Slf4j
+@Component
+public class ZookeeperDistributedLock {
 
     @Autowired
     private ZooKeeper zooKeeper;
@@ -51,7 +54,6 @@ public class ZookeeperDistributedLockImpl implements ZookeeperDistributedLock {
         return acquireLock(nodePath);
     }
 
-    @Override
     @SneakyThrows
     public boolean releaseLock(String nodePath) {
         Stat exists = zooKeeper.exists(nodePath, false);
@@ -63,7 +65,6 @@ public class ZookeeperDistributedLockImpl implements ZookeeperDistributedLock {
     }
 
     @SneakyThrows
-    @Override
     public String tryLock(String key) {
         String lockPrefix = DistributedConstant.LOCK_PREFIX;
         Stat parentNodeExist = zooKeeper.exists(lockPrefix, false);

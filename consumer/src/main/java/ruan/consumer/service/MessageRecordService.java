@@ -1,8 +1,7 @@
-package ruan.provider.service;
+package ruan.common.service;
 
+import ruan.common.entity.MessageRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
-import ruan.provider.entity.MessageRecord;
-import ruan.provider.pojo.vo.MessageRecordVo;
 
 /**
  * <p>
@@ -13,5 +12,5 @@ import ruan.provider.pojo.vo.MessageRecordVo;
  * @since 2020-10-26
  */
 public interface MessageRecordService extends IService<MessageRecord> {
-    boolean updateStatus(MessageRecordVo messageRecordVo);
+
 }
