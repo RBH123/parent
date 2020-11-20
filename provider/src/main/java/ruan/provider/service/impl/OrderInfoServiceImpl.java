@@ -10,8 +10,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import ruan.common.service.impl.ZookeeperDistributedLock;
-import ruan.common.util.SnowflakesUtil;
 import ruan.provider.constant.RedisKeyConstant;
 import ruan.provider.entity.MessageRecord;
 import ruan.provider.entity.OrderDetail;
@@ -23,6 +21,7 @@ import ruan.provider.mapper.OrderInfoDao;
 import ruan.provider.pojo.ao.OrderAo;
 import ruan.provider.pojo.ao.OrderInfoAo;
 import ruan.provider.service.OrderInfoService;
+import ruan.provider.util.SnowflakesUtil;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;

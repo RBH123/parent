@@ -10,12 +10,14 @@
         <module name="consumer" />
         <module name="common" />
         <module name="provider" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="common" target="1.8" />
       <module name="consumer" target="1.8" />
       <module name="demo" target="1.8" />
+      <module name="gateway" target="1.8" />
       <module name="parent" target="1.8" />
       <module name="provider" target="1.8" />
     </bytecodeTargetLevel>
@@ -25,6 +27,7 @@
       <module name="common" options="-parameters" />
       <module name="consumer" options="-parameters" />
       <module name="demo" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="parent" options="-parameters" />
       <module name="provider" options="-parameters" />
     </option>

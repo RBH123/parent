@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ruan.common.common.CommonResult;
-import ruan.common.common.ResultEnum;
+import ruan.provider.common.CommonResult;
+import ruan.provider.common.ResultEnum;
 import ruan.provider.pojo.ao.OrderAo;
 import ruan.provider.service.OrderInfoService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -33,7 +32,7 @@ public class OrderInfoController {
     private OrderInfoService orderInfoService;
 
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
-    public Object createOrder(@RequestBody @Valid List<OrderAo> aos) {
+    public Object createOrder(@RequestBody List<OrderAo> aos) {
         if (CollectionUtils.isEmpty(aos)) {
             return CommonResult.FAIL(ResultEnum.PARAM_ERROR.getCode(), ResultEnum.PARAM_ERROR.getMessage()).toJson();
         }

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 10087
 spring:
   cloud:
     stream:
@@ -36,7 +36,7 @@ spring:
         heart-beat-timeout: 90
         server-addr: 192.168.24.14:8848
         enabled: true
-        group: nacos-group
+        group: ruan
         namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
         service: nacos-provider
   datasource:
@@ -67,6 +67,8 @@ spring:
         max-wait: 1000ms
         min-idle: 0
     port: 6379
+  application:
+    name: provider
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
   global-config:
@@ -78,8 +80,10 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     call-setters-on-nulls: true
-    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 elaticjob:
   zookeeper:
     server-lists: 192.168.24.14:2181,192.168.24.14:2182,192.168.24.14:2183
     namespace: elasticjob
+logging:
+  config: classpath:logback-spring.xml

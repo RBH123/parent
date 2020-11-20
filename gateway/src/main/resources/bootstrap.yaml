@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        service: gateway
+        namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
+        server-addr: 192.168.24.14:8848
+        register-enabled: true
+        heart-beat-timeout: 30
+        group: ruan
+      config:
+        namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
+        encode: UTF-8
+        server-addr: 192.168.24.14
+        timeout: 3000
+        file-extension: yaml
+        max-retry: 3
+        group: ruan
+        refresh-enabled: false
+server:
+  port: 10010
