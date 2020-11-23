@@ -11,12 +11,12 @@ spring:
         group: nacos-group
         max-retry: 3
         timeout: 3000
-        server-addr: 192.168.24.14:8848
+        server-addr: 192.168.17.14:8848
 feign:
   httpclient:
     connection-timeout: 500
     enabled: true
     max-connections: 200
 zookeeper:
-  server: 192.168.24.14:2182,192.168.24.14:2181,192.168.24.14:2183
+  server: 192.168.17.14:2181
   timeout: 120000

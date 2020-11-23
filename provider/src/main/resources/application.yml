@@ -5,7 +5,7 @@ spring:
     stream:
       rocketmq:
         binder:
-          name-server: 192.168.24.14:9876
+          name-server: 192.168.17.14:9876
       bindings:
         output:
           content-type: application/json
@@ -29,18 +29,18 @@ spring:
           binder: kafka
       kafka:
         binder:
-          brokers: 192.168.24.14:9092
+          brokers: 192.168.17.14:9092
     nacos:
       discovery:
         heart-beat-interval: 30
         heart-beat-timeout: 90
-        server-addr: 192.168.24.14:8848
+        server-addr: 192.168.17.14:8848
         enabled: true
         group: ruan
         namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
         service: nacos-provider
   datasource:
-    url: jdbc:mysql://192.168.24.14:3306/server?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://192.168.17.14:3306/server?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 217024
     driver-class-name: com.mysql.jdbc.Driver
@@ -59,7 +59,7 @@ spring:
   jackson:
     default-property-inclusion: non_null
   redis:
-    host: 192.168.24.14
+    host: 192.168.17.14
     lettuce:
       pool:
         max-active: 8
@@ -83,7 +83,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 elaticjob:
   zookeeper:
-    server-lists: 192.168.24.14:2181,192.168.24.14:2182,192.168.24.14:2183
+    server-lists: 192.168.17.14:2181
     namespace: elasticjob
 logging:
   config: classpath:logback-spring.xml
