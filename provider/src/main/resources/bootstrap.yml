@@ -6,7 +6,7 @@ spring:
         enabled: true
         encode: UTF-8
         name: nacos-config
-        namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
+        namespace: dev
         file-extension: yaml
         group: nacos-group
         max-retry: 3

@@ -37,7 +37,7 @@ spring:
         server-addr: 192.168.17.14:8848
         enabled: true
         group: ruan
-        namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
+        namespace: dev
         service: nacos-provider
   datasource:
     url: jdbc:mysql://192.168.17.14:3306/server?useUnicode=true&characterEncoding=UTF-8
