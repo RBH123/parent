@@ -1,4 +1,4 @@
-package ruan.provider.rocketmq.product;
+package ruan.provider.message.product;
 
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -6,7 +6,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-import ruan.provider.rocketmq.config.Source;
+import ruan.provider.message.config.Source;
 
 import javax.annotation.Resource;
 import java.util.HashMap;

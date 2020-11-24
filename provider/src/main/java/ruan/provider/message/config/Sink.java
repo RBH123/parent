@@ -1,4 +1,4 @@
-package ruan.provider.rocketmq.config;
+package ruan.provider.message.config;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

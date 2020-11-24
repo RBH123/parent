@@ -14,7 +14,7 @@ import ruan.provider.constant.RedisKeyConstant;
 import ruan.provider.entity.MessageRecord;
 import ruan.provider.entity.OrderDetail;
 import ruan.provider.entity.OrderInfo;
-import ruan.provider.kafka.product.KafkaProduct;
+import ruan.provider.message.product.KafkaProduct;
 import ruan.provider.mapper.MessageRecordDao;
 import ruan.provider.mapper.OrderDetailDao;
 import ruan.provider.mapper.OrderInfoDao;

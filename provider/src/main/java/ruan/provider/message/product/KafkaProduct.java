@@ -1,11 +1,11 @@
-package ruan.provider.kafka.product;
+package ruan.provider.message.product;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-import ruan.provider.rocketmq.config.Source;
+import ruan.provider.message.config.Source;
 
 @Slf4j
 @Component

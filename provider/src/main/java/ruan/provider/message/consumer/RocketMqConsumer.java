@@ -1,4 +1,4 @@
-package ruan.provider.rocketmq.consumer;//package ruan.demo.rocketmq.consumer;
+package ruan.provider.message.consumer;//package ruan.demo.rocketmq.consumer;
 //
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.cloud.stream.annotation.EnableBinding;
