@@ -1,19 +1,12 @@
 package ruan.provider.common;
 
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 
 import java.sql.Statement;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Author: rocky
@@ -36,14 +29,14 @@ public class SqlStatementInterceptor implements Interceptor {
             long endTime = System.currentTimeMillis();
             StatementHandler handler = (StatementHandler) invocation.getTarget();
             String sql = handler.getBoundSql().getSql();
-            log.info("sql：%sz执行时间：%s", sql, endTime - startTime);
+            log.info("sql：{}执行时间：{}ms", sql, endTime - startTime);
         }
         return null;
     }
 
     @Override
     public Object plugin(Object target) {
-        return null;
+        return Plugin.wrap(target, this);
     }
 
     @Override
