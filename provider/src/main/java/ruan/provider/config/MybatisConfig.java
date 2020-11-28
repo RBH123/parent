@@ -35,7 +35,6 @@ public class MybatisConfig {
         });
         PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(pathMatchingResourcePatternResolver.getResources("classpath:mapper/*Mapper.xml"));
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.cjs.boot.domain.entity");
         return sqlSessionFactoryBean.getObject();
     }
 }
