@@ -1,0 +1,14 @@
+CREATE TABLE `order_detail`
+(
+    `id`              bigint(20) NOT NULL COMMENT '主键id',
+    `pay_status`      tinyint(4)      DEFAULT NULL COMMENT '支付状态，0--待支付，1--已支付',
+    `order_status`    tinyint(4)      DEFAULT NULL COMMENT '订单状态',
+    `total_amount`    decimal(20, 2)  DEFAULT NULL COMMENT '订单总价格',
+    `discount_amount` decimal(20, 2)  DEFAULT NULL COMMENT '折扣后的价格',
+    `reserve_amount`  decimal(20, 2)  DEFAULT NULL COMMENT '定金',
+    `goods_count`     bigint(20)      DEFAULT NULL COMMENT '商品数量',
+    `create_time`     timestamp  NULL DEFAULT NULL COMMENT '创建时间',
+    `update_time`     timestamp  NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = latin1 COMMENT ='订单详细信息';

@@ -1,5 +1,6 @@
 package ruan.provider.common;
 
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.Interceptor;
@@ -9,7 +10,10 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 
 import java.sql.Statement;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Author: rocky

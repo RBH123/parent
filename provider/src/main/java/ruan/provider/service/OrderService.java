@@ -1,7 +1,7 @@
 package ruan.provider.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import ruan.provider.entity.OrderInfo;
+import ruan.provider.entity.Order;
 import ruan.provider.pojo.ao.OrderAo;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author ruan
  * @since 2020-10-20
  */
-public interface OrderInfoService extends IService<OrderInfo> {
+public interface OrderService extends IService<Order> {
 
     boolean createOrder(List<OrderAo> aoList);
 }

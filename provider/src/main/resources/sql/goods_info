@@ -1,0 +1,22 @@
+CREATE TABLE `goods_info`
+(
+    `id`              bigint(20) NOT NULL COMMENT '商品主键id',
+    `name`            varchar(255)    DEFAULT NULL COMMENT '商品名称',
+    `desc`            varchar(255)    DEFAULT NULL COMMENT '商品描述',
+    `color`           varchar(255)    DEFAULT NULL COMMENT '商品颜色',
+    `size`            varchar(255)    DEFAULT NULL COMMENT '商品尺寸',
+    `tag`             varchar(255)    DEFAULT NULL COMMENT '商品标签',
+    `share_url`       varchar(255)    DEFAULT NULL COMMENT '分享链接',
+    `images`          varchar(255)    DEFAULT NULL COMMENT '商品图片',
+    `price`           decimal(20, 2)  DEFAULT NULL COMMENT '商品价格',
+    `sales`           bigint(20)      DEFAULT NULL COMMENT '商品销量',
+    `is_recommended`  tinyint(4)      DEFAULT NULL COMMENT '是否推荐',
+    `guarantee`       varchar(255)    DEFAULT NULL COMMENT '保障',
+    `streamer`        varchar(255)    DEFAULT NULL COMMENT '飘带',
+    `inventory_count` bigint(20)      DEFAULT NULL COMMENT '库存数量',
+    `status`          tinyint(4)      DEFAULT NULL COMMENT '商品状态，0--正常，1--下架',
+    `create_time`     timestamp  NULL DEFAULT NULL COMMENT '创建时间',
+    `update_time`     timestamp  NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = latin1 COMMENT ='商品详细信息';

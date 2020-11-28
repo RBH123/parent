@@ -12,15 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ruan.provider.constant.RedisKeyConstant;
 import ruan.provider.entity.MessageRecord;
+import ruan.provider.entity.Order;
 import ruan.provider.entity.OrderDetail;
-import ruan.provider.entity.OrderInfo;
 import ruan.provider.message.product.KafkaProduct;
 import ruan.provider.mapper.MessageRecordDao;
 import ruan.provider.mapper.OrderDetailDao;
-import ruan.provider.mapper.OrderInfoDao;
+import ruan.provider.mapper.OrderDao;
 import ruan.provider.pojo.ao.OrderAo;
 import ruan.provider.pojo.ao.OrderInfoAo;
-import ruan.provider.service.OrderInfoService;
+import ruan.provider.service.OrderService;
 import ruan.provider.util.SnowflakesUtil;
 
 import javax.annotation.Resource;
@@ -40,12 +40,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfo> implements OrderInfoService {
+public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements OrderService {
 
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
-    private OrderInfoDao orderInfoDao;
+    private OrderDao orderDao;
     @Autowired
     private OrderDetailDao orderDetailDao;
     @Autowired
@@ -88,20 +88,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfo> i
     @Transactional(rollbackFor = Exception.class)
     public MessageRecord createGoodsOrder(List<OrderInfoAo> orderInfoAos) {
         Map<Long, List<OrderInfoAo>> orderMap = orderInfoAos.parallelStream().collect(Collectors.groupingBy(OrderInfoAo::getStoreId));
-        List<OrderInfo> orderInfoList = new ArrayList<>();
+        List<Order> orderList = new ArrayList<>();
         orderMap.values().parallelStream().forEach(v -> {
             long orderId = SnowflakesUtil.INSTANCE().nextId();
-            List<OrderInfo> orderInfos = v.parallelStream().map(v1 -> {
-                OrderInfo orderInfo = new OrderInfo();
-                BeanUtils.copyProperties(v1, orderInfo);
-                orderInfo.setOrderId(orderId);
-                orderInfo.setId(SnowflakesUtil.INSTANCE().nextId());
-                return orderInfo;
+            List<Order> orders = v.parallelStream().map(v1 -> {
+                Order order = new Order();
+                BeanUtils.copyProperties(v1, order);
+                order.setOrderId(orderId);
+                order.setId(SnowflakesUtil.INSTANCE().nextId());
+                return order;
             }).collect(Collectors.toList());
-            orderInfoList.addAll(orderInfos);
+            orderList.addAll(orders);
         });
-        Map<Long, Long> orderIdMap = orderInfoList.parallelStream().collect(Collectors.toMap(OrderInfo::getStoreId, OrderInfo::getOrderId));
-        orderInfoDao.insertBatch(orderInfoList);
+        Map<Long, Long> orderIdMap = orderList.parallelStream().collect(Collectors.toMap(Order::getStoreId, Order::getOrderId));
+        orderDao.insertBatch(orderList);
         List<OrderDetail> orderDetailList = orderMap.values().parallelStream().map(value -> {
             long totalCount = value.parallelStream().mapToLong(OrderInfoAo::getGoodsCount).sum();
             BigDecimal totalAmount = value.parallelStream().map(OrderInfoAo::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ruan.provider.common.CommonResult;
 import ruan.provider.common.ResultEnum;
 import ruan.provider.pojo.ao.OrderAo;
-import ruan.provider.service.OrderInfoService;
+import ruan.provider.service.OrderService;
 
 import java.util.List;
 
@@ -26,10 +26,10 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/orderInfo")
-public class OrderInfoController {
+public class OrderController {
 
     @Autowired
-    private OrderInfoService orderInfoService;
+    private OrderService orderService;
 
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
     public Object createOrder(@RequestBody List<OrderAo> aos) {
@@ -38,7 +38,7 @@ public class OrderInfoController {
         }
         boolean orderResult = false;
         try {
-            orderResult = orderInfoService.createOrder(aos);
+            orderResult = orderService.createOrder(aos);
         } catch (Exception e) {
             throw e;
         }

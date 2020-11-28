@@ -1,0 +1,11 @@
+CREATE TABLE `inventory_detail`
+(
+    `id`                 bigint(20) NOT NULL COMMENT '主键id',
+    `goods_id`           bigint(20)      DEFAULT NULL COMMENT '商品id',
+    `goods_count`        bigint(20)      DEFAULT NULL COMMENT '商品数量',
+    `operator_person_id` bigint(20)      DEFAULT NULL COMMENT '操作人员id',
+    `create_time`        timestamp  NULL DEFAULT NULL COMMENT '创建时间',
+    `update_time`        timestamp  NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = latin1 COMMENT ='货物库存信息';

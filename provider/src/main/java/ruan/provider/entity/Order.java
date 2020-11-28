@@ -23,7 +23,7 @@ import java.sql.Timestamp;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("order_info")
-public class OrderInfo extends Model<OrderInfo> {
+public class Order extends Model<Order> {
 
     private static final long serialVersionUID = 1L;
 

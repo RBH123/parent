@@ -2,7 +2,7 @@ package ruan.provider.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import ruan.provider.entity.OrderInfo;
+import ruan.provider.entity.Order;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import java.util.List;
  * @since 2020-10-20
  */
 @Mapper
-public interface OrderInfoDao extends BaseMapper<OrderInfo> {
+public interface OrderDao extends BaseMapper<Order> {
 
-    Integer insertBatch(List<OrderInfo> orderInfoList);
+    Integer insertBatch(List<Order> orderList);
 }
 
