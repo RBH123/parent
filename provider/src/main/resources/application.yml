@@ -1,6 +1,9 @@
 server:
   port: 10087
 spring:
+  output:
+    ansi:
+      enabled: always
   cloud:
     stream:
       rocketmq:
