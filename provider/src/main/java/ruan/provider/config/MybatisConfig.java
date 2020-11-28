@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 public class MybatisConfig {
 
     @Resource
-    private DataSource dataSource;
+    private JdbcConnectionPool dataSource;
 
 
     @Bean
