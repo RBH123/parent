@@ -6,6 +6,8 @@
     <springProperty scope="context" name="appName" source="spring.application.name" />
     <property name="CONSOLE_LOG_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss.SSS} %ip ${appName} %-5level %thread] %msg%n"/>
+<!--    <property name="CONSOLE_LOG_PATTERN"-->
+<!--      value="[%-5level] [%contextName] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{remoteHost}] [%X{requestURI}] [%X{traceId}] %logger - %msg%n"/>-->
     <appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>../${LOG_PATH}/${appName}/${appName}-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

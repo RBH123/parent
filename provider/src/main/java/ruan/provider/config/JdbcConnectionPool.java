@@ -38,7 +38,7 @@ public class JdbcConnectionPool implements DataSource {
             CONNECTION_USERNAME = properties.getProperty("mysql.username").trim();
             CONNECTION_PASSWORD = properties.getProperty("mysql.password").trim();
             CONNECTION_URL = properties.getProperty("mysql.url").trim();
-            CONNECTION_DRIVER = properties.getProperty("mysql.driver").trim();
+            CONNECTION_DRIVER = properties.getProperty("mysql.driver-class-name").trim();
             Class.forName(CONNECTION_DRIVER);
             while (connectionLinkedList.size() <= INIT) {
                 Connection connection = DriverManager

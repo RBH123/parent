@@ -5,7 +5,7 @@ spring:
         config-retry-time: 3
         enabled: true
         encode: UTF-8
-        name: nacos-config
+        name: provider
         namespace: dev
         file-extension: yaml
         group: nacos-group

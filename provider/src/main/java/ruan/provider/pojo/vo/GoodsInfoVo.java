@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import ruan.provider.anno.CustomMapping;
 
 /**
 * 
@@ -19,6 +20,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@CustomMapping
 public class GoodsInfoVo implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
@@ -28,6 +30,7 @@ public class GoodsInfoVo implements Serializable {
     /**
     * 商品名称
     */
+    @CustomMapping(type = "text",analyzer = "ik_smart")
     private String name;
     /**
     * 商品描述
@@ -89,22 +92,4 @@ public class GoodsInfoVo implements Serializable {
     * 状态
     */
     private Integer status;
-
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String DESC = "desc";
-    public static final String COLOR = "color";
-    public static final String SIZE = "size";
-    public static final String TAG = "tag";
-    public static final String SHARE_URL = "share_url";
-    public static final String IMAGES = "images";
-    public static final String PRICE = "price";
-    public static final String SALES = "sales";
-    public static final String IS_RECOMMENDED = "is_recommended";
-    public static final String GUARANTEE = "guarantee";
-    public static final String STREAMER = "streamer";
-    public static final String CREATE_TIME = "create_time";
-    public static final String UPDATE_TIME = "update_time";
-    public static final String INVENTORY_QUANTITY = "inventory_quantity";
-    public static final String STATUS = "status";
 }
