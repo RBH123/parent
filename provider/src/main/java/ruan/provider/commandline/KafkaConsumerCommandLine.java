@@ -25,6 +25,7 @@ public class KafkaConsumerCommandLine implements CommandLineRunner {
     GoodsInfoVo goodsInfoVo = GoodsInfoVo.builder().name("华为nova6").color("天空之境")
             .createTime(Timestamp.valueOf(LocalDateTime.now())).desc("性能还行！").build();
     elasticsearchUtil.putData(Lists.newArrayList(goodsInfoVo),"goods_info");
+
     log.info("程序开始执行！");
   }
 }
