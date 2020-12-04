@@ -1,18 +1,28 @@
 package ruan.provider.elasticsearch;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ruan.provider.constant.CommonConstant;
 import ruan.provider.util.ObjectUtil;
+import ruan.provider.util.SnowflakesUtil;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class ElasticsearchUtil {
@@ -29,10 +39,21 @@ public class ElasticsearchUtil {
         }
         request.settings(Settings.builder().put(CommonConstant.INDEX_NUMBER_OF_SHARDS,shardsCnt).put(
                 CommonConstant.INDEX_NUMBER_OF_REPLICAS,replicasCnt));
-        restHighLevelClient.indices().create(request,RequestOptions.DEFAULT);
+        restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
     }
 
-    public static void createMapping(){
-
+    public <T> void putData(List<T> list,String index){
+        try {
+            BulkRequest bulkRequest = new BulkRequest();
+            list.parallelStream().forEach(i->{
+                IndexRequest indexRequest = new IndexRequest(index);
+                indexRequest.source(JSON.toJSONString(i), XContentType.JSON);
+                indexRequest.id(String.valueOf(SnowflakesUtil.INSTANCE().nextId()));
+                bulkRequest.add(indexRequest);
+            });
+            restHighLevelClient.bulk(bulkRequest,RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            log.error("",e);
+        }
     }
 }

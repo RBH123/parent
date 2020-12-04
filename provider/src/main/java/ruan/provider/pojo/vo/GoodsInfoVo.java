@@ -22,7 +22,7 @@ import ruan.provider.anno.CustomMapping;
 @Builder
 @CustomMapping
 public class GoodsInfoVo implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 4284129438912781150L;
     /**
     * 主键id
     */
