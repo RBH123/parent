@@ -30,11 +30,13 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.index.reindex.DeleteByQueryRequest;
+import org.elasticsearch.index.reindex.UpdateByQueryRequest;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ruan.provider.constant.CommonConstant;
+import ruan.provider.elasticsearch.common.EsAsyncAction;
 import ruan.provider.elasticsearch.pojo.MatchingParam;
 import ruan.provider.util.ObjectUtil;
 import ruan.provider.util.SnowflakesUtil;
@@ -45,6 +47,7 @@ import ruan.provider.util.SnowflakesUtil;
 public class ElasticsearchUtil {
 
     private final RestHighLevelClient restHighLevelClient;
+    private final EsAsyncAction esAsyncAction;
 
     /**
      * 创建索引
@@ -171,6 +174,12 @@ public class ElasticsearchUtil {
         }
     }
 
+    /**
+     * 根据查询条件删除
+     *
+     * @param paramList
+     * @param index
+     */
     public void deleteBySearch(List<MatchingParam> paramList, String index) {
         if (CollectionUtils.isEmpty(paramList)) {
             return;
@@ -192,9 +201,38 @@ public class ElasticsearchUtil {
             });
             DeleteByQueryRequest deleteByQueryRequest = new DeleteByQueryRequest(index);
             deleteByQueryRequest.setQuery(builder);
-            restHighLevelClient.deleteByQuery(deleteByQueryRequest, RequestOptions.DEFAULT);
+            restHighLevelClient
+                    .deleteByQuery(deleteByQueryRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
             log.error("删除数据异常:{}", e);
+        }
+    }
+
+    public void updateBySearch(List<MatchingParam> paramList, String index) {
+        if (CollectionUtils.isEmpty(paramList)) {
+            return;
+        }
+        try {
+            BoolQueryBuilder builder = new BoolQueryBuilder();
+            paramList.forEach(matchingParam -> {
+                if (matchingParam.isFuzzy()) {
+                    MatchQueryBuilder matchQueryBuilder =
+                            new MatchQueryBuilder(matchingParam.getField(),
+                                    matchingParam.getParam());
+                    builder.must(matchQueryBuilder);
+                } else {
+                    TermQueryBuilder termQueryBuilder = new TermQueryBuilder(
+                            matchingParam.getField(),
+                            matchingParam.getParam());
+                    builder.must(termQueryBuilder);
+                }
+            });
+            UpdateByQueryRequest updateByQueryRequest = new UpdateByQueryRequest(index);
+            updateByQueryRequest.setQuery(builder);
+            restHighLevelClient.updateByQueryAsync(updateByQueryRequest, RequestOptions.DEFAULT,
+                    esAsyncAction);
+        } catch (Exception e) {
+            log.error("操作es异常:{}", e);
         }
     }
 }
