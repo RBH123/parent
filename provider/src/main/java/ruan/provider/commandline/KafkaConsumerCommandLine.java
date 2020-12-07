@@ -27,17 +27,18 @@ public class KafkaConsumerCommandLine implements CommandLineRunner {
   @Override
   @SneakyThrows
   public void run(String... args) {
-//    elasticsearchUtil.createIndex("goods_info", GoodsInfoVo.class, 3, 2);
+    elasticsearchUtil.createIndex("goods_info", GoodsInfoVo.class, 3, 2);
     GoodsInfoVo goodsInfoVo = GoodsInfoVo.builder().name("华为是中国的手机品牌").color("天空之境")
             .createTime(Timestamp.valueOf(LocalDateTime.now())).desc("性能还行！").build();
-//    elasticsearchUtil.putData(Lists.newArrayList(goodsInfoVo), "goods_info");
-//    MatchingParam fuzzy = MatchingParam.builder().field("name").param("华").isFuzzy(true).build();
-//    List<GoodsInfoVo> voList = elasticsearchUtil
-//            .fuzzyMatching(new GoodsInfoVo(), Lists.newArrayList(fuzzy),
-//                    "goods_info");
-//    log.info("程序开始执行！,{}",voList);
-    Map<String, Object> map =
-            ObjectUtil.object2Map(goodsInfoVo);
-    System.out.println(map);
+    elasticsearchUtil.putData(Lists.newArrayList(goodsInfoVo), "goods_info");
+    MatchingParam fuzzy = MatchingParam.builder().field("name").param("华").isFuzzy(true).build();
+    List<GoodsInfoVo> voList = elasticsearchUtil
+            .fuzzyMatching(new GoodsInfoVo(), Lists.newArrayList(fuzzy),
+                    "goods_info");
+    log.info("程序开始执行！,{}",voList);
+//    Map<String, Object> map =
+//            ObjectUtil.object2Map(goodsInfoVo);
+//    System.out.println(map);
+//    elasticsearchUtil.deleteBySearch(Lists.newArrayList(fuzzy),"goods_info");
   }
 }

@@ -3,7 +3,6 @@ package ruan.provider.elasticsearch;
 
 import com.alibaba.fastjson.JSON;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -14,12 +13,13 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -29,6 +29,7 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,9 +149,52 @@ public class ElasticsearchUtil {
             UpdateRequest updateRequest = new UpdateRequest(index, id);
             Map<String, Object> map = ObjectUtil.object2Map(t);
             updateRequest.doc(map);
-            restHighLevelClient.update(updateRequest, RequestOptions.DEFAULT);
+            UpdateResponse update = restHighLevelClient
+                    .update(updateRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
-            log.error("更新失败！", e);
+            log.error("更新失败:{}", e);
+        }
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param index
+     * @param id
+     */
+    public void delete(String index, String id) {
+        try {
+            DeleteRequest deleteRequest = new DeleteRequest(index, id);
+            restHighLevelClient.delete(deleteRequest, RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            log.error("删除数据异常:{}", e);
+        }
+    }
+
+    public void deleteBySearch(List<MatchingParam> paramList, String index) {
+        if (CollectionUtils.isEmpty(paramList)) {
+            return;
+        }
+        try {
+            BoolQueryBuilder builder = new BoolQueryBuilder();
+            paramList.forEach(matchingParam -> {
+                if (matchingParam.isFuzzy()) {
+                    MatchQueryBuilder matchQueryBuilder =
+                            new MatchQueryBuilder(matchingParam.getField(),
+                                    matchingParam.getParam());
+                    builder.must(matchQueryBuilder);
+                } else {
+                    TermQueryBuilder termQueryBuilder = new TermQueryBuilder(
+                            matchingParam.getField(),
+                            matchingParam.getParam());
+                    builder.must(termQueryBuilder);
+                }
+            });
+            DeleteByQueryRequest deleteByQueryRequest = new DeleteByQueryRequest(index);
+            deleteByQueryRequest.setQuery(builder);
+            restHighLevelClient.deleteByQuery(deleteByQueryRequest, RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            log.error("删除数据异常:{}", e);
         }
     }
 }
