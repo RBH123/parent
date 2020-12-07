@@ -3,9 +3,11 @@ package ruan.provider.elasticsearch;
 
 import com.alibaba.fastjson.JSON;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -17,6 +19,7 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -42,6 +45,14 @@ public class ElasticsearchUtil {
 
     private final RestHighLevelClient restHighLevelClient;
 
+    /**
+     * 创建索引
+     *
+     * @param index
+     * @param cls
+     * @param shardsCnt
+     * @param replicasCnt
+     */
     @SneakyThrows
     public void createIndex(String index, Class cls, int shardsCnt, int replicasCnt) {
         CreateIndexRequest request = new CreateIndexRequest(index);
@@ -56,6 +67,13 @@ public class ElasticsearchUtil {
         restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
     }
 
+    /**
+     * 添加数据
+     *
+     * @param list
+     * @param index
+     * @param <T>
+     */
     public <T> void putData(List<T> list, String index) {
         try {
             BulkRequest bulkRequest = new BulkRequest();
@@ -71,6 +89,15 @@ public class ElasticsearchUtil {
         }
     }
 
+    /**
+     * 查询操作
+     *
+     * @param t
+     * @param paramList
+     * @param index
+     * @param <T>
+     * @return
+     */
     @SneakyThrows
     public <T> List<T> fuzzyMatching(T t, List<MatchingParam> paramList, String index) {
         if (CollectionUtils.isEmpty(paramList)) {
@@ -92,6 +119,7 @@ public class ElasticsearchUtil {
         searchSourceBuilder.query(builder);
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.source(searchSourceBuilder);
+        searchRequest.indices(index);
         SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         SearchHit[] hits = response.getHits().getHits();
         List<SearchHit> searchHits = Arrays.asList(hits);
@@ -105,5 +133,24 @@ public class ElasticsearchUtil {
             return null;
         }).filter(s -> s != null).collect(Collectors.toList());
         return list;
+    }
+
+    /**
+     * 更新操作
+     *
+     * @param t
+     * @param index
+     * @param id
+     * @param <T>
+     */
+    public <T> void update(T t, String index, String id) {
+        try {
+            UpdateRequest updateRequest = new UpdateRequest(index, id);
+            Map<String, Object> map = ObjectUtil.object2Map(t);
+            updateRequest.doc(map);
+            restHighLevelClient.update(updateRequest, RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            log.error("更新失败！", e);
+        }
     }
 }

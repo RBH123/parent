@@ -30,7 +30,7 @@ public class GoodsInfoVo implements Serializable {
     /**
     * 商品名称
     */
-    @CustomMapping(type = "text",analyzer = "ik_smart")
+    @CustomMapping(type = "text",analyzer = "default")
     private String name;
     /**
     * 商品描述
