@@ -32,6 +32,8 @@ import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.elasticsearch.index.reindex.UpdateByQueryRequest;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -208,6 +210,12 @@ public class ElasticsearchUtil {
         }
     }
 
+    /**
+     * 根据查询条件进行更新操作
+     *
+     * @param paramList
+     * @param index
+     */
     public void updateBySearch(List<MatchingParam> paramList, String index) {
         if (CollectionUtils.isEmpty(paramList)) {
             return;
@@ -234,5 +242,9 @@ public class ElasticsearchUtil {
         } catch (Exception e) {
             log.error("操作es异常:{}", e);
         }
+    }
+
+    public static double average(String field){
+        AggregationBuilders.avg("avg").field("")
     }
 }

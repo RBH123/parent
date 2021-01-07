@@ -3,15 +3,15 @@ spring:
     nacos:
       discovery:
         service: gateway
-        namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
-        server-addr: 192.168.24.14:8848
+        namespace: dev
+        server-addr: 192.168.17.14:8848
         register-enabled: true
         heart-beat-timeout: 30
         group: ruan
       config:
-        namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
+        namespace: dev
         encode: UTF-8
-        server-addr: 192.168.24.14
+        server-addr: 192.168.17.14
         timeout: 3000
         file-extension: yaml
         max-retry: 3
