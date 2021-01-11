@@ -1,7 +1,9 @@
 package ruan.provider.service;
 
+import java.math.BigInteger;
 import ruan.provider.entity.OrderDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
+import ruan.provider.pojo.vo.OrderDetailVo;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OrderDetailService extends IService<OrderDetail> {
 
+    OrderDetailVo detail(BigInteger detailId);
 }

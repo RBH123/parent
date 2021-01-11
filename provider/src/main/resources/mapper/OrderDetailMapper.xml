@@ -31,4 +31,9 @@
         </foreach>
         )
     </insert>
+
+    <select id="getOrderDetailById" resultMap="BaseResultMap">
+        select * from order_detail where  id = #{id}
+    </select>
+
 </mapper>

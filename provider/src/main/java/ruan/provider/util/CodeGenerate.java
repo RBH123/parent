@@ -57,7 +57,7 @@ public class CodeGenerate {
         dataSourceConfig.setDriverName("com.alibaba.druid.proxy.DruidDriver");
         dataSourceConfig.setUsername("root");
         dataSourceConfig.setPassword("217024");
-        dataSourceConfig.setUrl("jdbc:mysql://192.168.24.14:3306/server?useUnicode=true&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai");
+        dataSourceConfig.setUrl("jdbc:mysql://192.168.24.14:3306/shengye_erp_account?useUnicode=true&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai");
         dataSourceConfig.setTypeConvert(new MySqlTypeConvert());
         autoGenerator.setDataSource(dataSourceConfig);
         StrategyConfig strategyConfig = new StrategyConfig();

@@ -2,6 +2,7 @@ package ruan.provider.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import java.math.BigInteger;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +21,7 @@ import ruan.provider.mapper.OrderDetailDao;
 import ruan.provider.mapper.OrderDao;
 import ruan.provider.pojo.ao.OrderAo;
 import ruan.provider.pojo.ao.OrderInfoAo;
+import ruan.provider.pojo.vo.OrderDetailVo;
 import ruan.provider.service.OrderService;
 import ruan.provider.util.SnowflakesUtil;
 

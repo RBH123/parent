@@ -62,12 +62,10 @@ public class MybatisConfig {
     public SqlSessionFactory sqlSessionFactory() {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
-        sqlSessionFactoryBean.setPlugins(new Interceptor[]{
-                new SqlStatementInterceptor()
-        });
-
+        sqlSessionFactoryBean.setPlugins(new Interceptor[]{new SqlStatementInterceptor()});
         PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(pathMatchingResourcePatternResolver.getResources("classpath:mapper/*Mapper.xml"));
+        sqlSessionFactoryBean.setTypeAliasesPackage("ruan.provider.entity");
         return sqlSessionFactoryBean.getObject();
     }
 

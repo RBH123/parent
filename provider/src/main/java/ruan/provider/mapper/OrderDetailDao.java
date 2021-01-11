@@ -1,5 +1,7 @@
 package ruan.provider.mapper;
 
+import java.math.BigInteger;
+import org.apache.ibatis.annotations.Param;
 import ruan.provider.entity.OrderDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,5 +18,7 @@ import java.util.List;
 public interface OrderDetailDao extends BaseMapper<OrderDetail> {
 
     int insertBatch(List<OrderDetail> orderDetails);
+
+    OrderDetail getOrderDetailById(@Param("id")BigInteger id);
 }
 
