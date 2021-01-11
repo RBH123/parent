@@ -1,4 +1,4 @@
-package ruan.provider.config;
+package ruan.provider.common;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

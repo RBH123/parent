@@ -13,6 +13,7 @@ import java.util.Properties;
  * Date: 2020/11/27 17:58
  * Project: parent
  * Package: ruan.provider.common
+ *自定义拦截器拦截sql，输出打印时间
  */
 @Slf4j
 @Intercepts(@Signature(method = "query", type = StatementHandler.class, args = {Statement.class, ResultHandler.class}))

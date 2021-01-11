@@ -17,6 +17,9 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * 自定义mysql连接池
+ */
 @Slf4j
 @Component
 public class JdbcConnectionPool implements DataSource {
@@ -32,8 +35,7 @@ public class JdbcConnectionPool implements DataSource {
     static LinkedList<Connection> connectionLinkedList = new LinkedList<>();
 
     static {
-        try (InputStream resourceAsStream = Object.class
-                .getResourceAsStream("/mysql-connect.properties")) {
+        try (InputStream resourceAsStream = Object.class.getResourceAsStream("/mysql-connect.properties")) {
             properties.load(resourceAsStream);
             CONNECTION_USERNAME = properties.getProperty("mysql.username").trim();
             CONNECTION_PASSWORD = properties.getProperty("mysql.password").trim();
@@ -41,8 +43,7 @@ public class JdbcConnectionPool implements DataSource {
             CONNECTION_DRIVER = properties.getProperty("mysql.driver-class-name").trim();
             Class.forName(CONNECTION_DRIVER);
             while (connectionLinkedList.size() <= INIT) {
-                Connection connection = DriverManager
-                        .getConnection(CONNECTION_URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
+                Connection connection = DriverManager.getConnection(CONNECTION_URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
                 connectionLinkedList.add(connection);
             }
         } catch (Exception e) {

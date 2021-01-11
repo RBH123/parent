@@ -154,8 +154,7 @@ public class ElasticsearchUtil {
             UpdateRequest updateRequest = new UpdateRequest(index, id);
             Map<String, Object> map = ObjectUtil.object2Map(t);
             updateRequest.doc(map);
-            UpdateResponse update = restHighLevelClient
-                    .update(updateRequest, RequestOptions.DEFAULT);
+            restHighLevelClient.update(updateRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
             log.error("更新失败:{}", e);
         }
@@ -190,14 +189,12 @@ public class ElasticsearchUtil {
             BoolQueryBuilder builder = new BoolQueryBuilder();
             paramList.forEach(matchingParam -> {
                 if (matchingParam.isFuzzy()) {
-                    MatchQueryBuilder matchQueryBuilder =
-                            new MatchQueryBuilder(matchingParam.getField(),
-                                    matchingParam.getParam());
+                    MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder(
+                            matchingParam.getField(), matchingParam.getParam());
                     builder.must(matchQueryBuilder);
                 } else {
                     TermQueryBuilder termQueryBuilder = new TermQueryBuilder(
-                            matchingParam.getField(),
-                            matchingParam.getParam());
+                            matchingParam.getField(), matchingParam.getParam());
                     builder.must(termQueryBuilder);
                 }
             });
@@ -224,27 +221,18 @@ public class ElasticsearchUtil {
             BoolQueryBuilder builder = new BoolQueryBuilder();
             paramList.forEach(matchingParam -> {
                 if (matchingParam.isFuzzy()) {
-                    MatchQueryBuilder matchQueryBuilder =
-                            new MatchQueryBuilder(matchingParam.getField(),
-                                    matchingParam.getParam());
+                    MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder(matchingParam.getField(),matchingParam.getParam());
                     builder.must(matchQueryBuilder);
                 } else {
-                    TermQueryBuilder termQueryBuilder = new TermQueryBuilder(
-                            matchingParam.getField(),
-                            matchingParam.getParam());
+                    TermQueryBuilder termQueryBuilder = new TermQueryBuilder(matchingParam.getField(), matchingParam.getParam());
                     builder.must(termQueryBuilder);
                 }
             });
             UpdateByQueryRequest updateByQueryRequest = new UpdateByQueryRequest(index);
             updateByQueryRequest.setQuery(builder);
-            restHighLevelClient.updateByQueryAsync(updateByQueryRequest, RequestOptions.DEFAULT,
-                    esAsyncAction);
+            restHighLevelClient.updateByQueryAsync(updateByQueryRequest, RequestOptions.DEFAULT, esAsyncAction);
         } catch (Exception e) {
             log.error("操作es异常:{}", e);
         }
-    }
-
-    public static double average(String field){
-        AggregationBuilders.avg("avg").field("")
     }
 }

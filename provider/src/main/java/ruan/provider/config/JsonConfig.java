@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 自定义json配置
+ */
 @Configuration
 public class JsonConfig {
 
