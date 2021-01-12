@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ruan.provider.mapper.FinanceDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ruan.provider.entity.Finance">
+        <id column="finance_id" property="financeId" />
+        <result column="transfer_code" property="transferCode" />
+        <result column="transfer_no" property="transferNo" />
+        <result column="finance_code" property="financeCode" />
+        <result column="finance_no" property="financeNo" />
+        <result column="finance_apply_no" property="financeApplyNo" />
+        <result column="business_id" property="businessId" />
+        <result column="receivable_number" property="receivableNumber" />
+        <result column="customer_id" property="customerId" />
+        <result column="customer_name" property="customerName" />
+        <result column="industry" property="industry" />
+        <result column="buyer_id" property="buyerId" />
+        <result column="buyer_name" property="buyerName" />
+        <result column="factor_name" property="factorName" />
+        <result column="factor_oa_id" property="factorOaId" />
+        <result column="project_name" property="projectName" />
+        <result column="transfer_amount" property="transferAmount" />
+        <result column="transaction_amount" property="transactionAmount" />
+        <result column="suggest_loan_date" property="suggestLoanDate" />
+        <result column="biz_model" property="bizModel" />
+        <result column="finance_stage" property="financeStage" />
+        <result column="receivable_date" property="receivableDate" />
+        <result column="receivable_account_date" property="receivableAccountDate" />
+        <result column="working_days" property="workingDays" />
+        <result column="finance_start_date" property="financeStartDate" />
+        <result column="finance_end_date" property="financeEndDate" />
+        <result column="prd_start_date" property="prdStartDate" />
+        <result column="prd_end_date" property="prdEndDate" />
+        <result column="finance_nature" property="financeNature" />
+        <result column="auto_repayment_plan" property="autoRepaymentPlan" />
+        <result column="loan_status" property="loanStatus" />
+        <result column="repayment_status" property="repaymentStatus" />
+        <result column="first_loan_date" property="firstLoanDate" />
+        <result column="latest_loan_date" property="latestLoanDate" />
+        <result column="actual_loan_amount" property="actualLoanAmount" />
+        <result column="is_paused" property="isPaused" />
+        <result column="paused_type" property="pausedType" />
+        <result column="paused_date" property="pausedDate" />
+        <result column="finance_balance_amount" property="financeBalanceAmount" />
+        <result column="has_created_plan" property="hasCreatedPlan" />
+        <result column="biz_system" property="bizSystem" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="remark" property="remark" />
+        <result column="extend_filed_json" property="extendFiledJson" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="last_updated_by" property="lastUpdatedBy" />
+        <result column="last_updated_time" property="lastUpdatedTime" />
+        <result column="is_his_data" property="isHisData" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        finance_id, transfer_code, transfer_no, finance_code, finance_no, finance_apply_no, business_id, receivable_number, customer_id, customer_name, industry, buyer_id, buyer_name, factor_name, factor_oa_id, project_name, transfer_amount, transaction_amount, suggest_loan_date, biz_model, finance_stage, receivable_date, receivable_account_date, working_days, finance_start_date, finance_end_date, prd_start_date, prd_end_date, finance_nature, auto_repayment_plan, loan_status, repayment_status, first_loan_date, latest_loan_date, actual_loan_amount, is_paused, paused_type, paused_date, finance_balance_amount, has_created_plan, biz_system, tenant_id, remark, extend_filed_json, is_deleted, created_by, created_time, last_updated_by, last_updated_time, is_his_data
+    </sql>
+
+    <select id="getFinanceById" resultMap="BaseResultMap">
+        select  * from t_sy_finance where finance_id = #{financeId}
+    </select>
+</mapper>

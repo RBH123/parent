@@ -22,6 +22,10 @@ public class DynamicDataSourceContextHolder {
         contextHolder.remove();
     }
 
+    public static boolean containDataSourceKey(Object dataSourceKey){
+        return dataSourceKeyList.contains(dataSourceKey);
+    }
+
     public static void setTragetDataSource(List<Object> dataSourceList){
         dataSourceKeyList.addAll(dataSourceList);
     }

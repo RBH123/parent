@@ -1,7 +1,4 @@
 package ruan.provider.config;
-
-
-
 import com.google.common.collect.Lists;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -23,6 +20,10 @@ public class MultiDataSource extends AbstractRoutingDataSource {
 
     public void setDefaultDataSource(Object defaultTargetDataSource) {
         super.setDefaultTargetDataSource(defaultTargetDataSource);
+    }
+
+    public boolean containDataSource(Object dataSourceKey){
+        return DynamicDataSourceContextHolder.containDataSourceKey(dataSourceKey);
     }
 
 

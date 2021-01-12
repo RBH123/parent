@@ -57,7 +57,7 @@ public class CodeGenerate {
         dataSourceConfig.setDriverName("com.alibaba.druid.proxy.DruidDriver");
         dataSourceConfig.setUsername("root");
         dataSourceConfig.setPassword("217024");
-        dataSourceConfig.setUrl("jdbc:mysql://192.168.24.14:3306/shengye_erp_account?useUnicode=true&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai");
+        dataSourceConfig.setUrl("jdbc:mysql://192.168.17.14:3306/shengye_erp_account?useUnicode=true&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai");
         dataSourceConfig.setTypeConvert(new MySqlTypeConvert());
         autoGenerator.setDataSource(dataSourceConfig);
         StrategyConfig strategyConfig = new StrategyConfig();
@@ -73,6 +73,7 @@ public class CodeGenerate {
         strategyConfig.setColumnNaming(NamingStrategy.underline_to_camel);
         strategyConfig.setLogicDeleteFieldName("is_deleted");
         strategyConfig.setInclude(tableNames);
+        strategyConfig.setTablePrefix("t_sy_");
         autoGenerator.setStrategy(strategyConfig);
         PackageConfig packageConfig = new PackageConfig();
         Map<String, String> pathInfo = new HashMap<>();
@@ -83,7 +84,7 @@ public class CodeGenerate {
         pathInfo.put(ConstVal.MAPPER_PATH, javaPath.concat(MAPPER));
         pathInfo.put(ConstVal.SERVICE_IMPL_PATH, javaPath.concat(SERVICE).concat("\\" + SERVICE_IMPL));
         pathInfo.put(ConstVal.ENTITY_PATH, javaPath.concat(ENTITY));
-        packageConfig.setParent("ruan.common");
+        packageConfig.setParent("ruan.provider");
         packageConfig.setPathInfo(pathInfo);
         autoGenerator.setPackageInfo(packageConfig);
         TemplateConfig templateConfig = new TemplateConfig();

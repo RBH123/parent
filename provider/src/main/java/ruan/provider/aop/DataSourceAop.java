@@ -1,6 +1,6 @@
 package ruan.provider.aop;
 
-import javax.sql.DataSource;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -12,6 +12,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import ruan.provider.anno.DynamicDataSource;
 import ruan.provider.common.DynamicDataSourceContextHolder;
+import ruan.provider.common.ServerException;
 
 
 @Order(-1)
@@ -28,6 +29,7 @@ public class DataSourceAop {
      * @param point
      */
     @Before("pointCut()")
+    @SneakyThrows
     public void switchDataSource(JoinPoint point){
         MethodSignature signature = (MethodSignature) point.getSignature();
         DynamicDataSource annotation = signature.getMethod().getAnnotation(DynamicDataSource.class);
@@ -35,6 +37,9 @@ public class DataSourceAop {
             return;
         }
         String value = annotation.value();
+        if(!DynamicDataSourceContextHolder.containDataSourceKey(value)){
+            throw new ServerException("数据源列表不包含当前指定数据源！");
+        }
         DynamicDataSourceContextHolder.setDataSource(value);
     }
 
