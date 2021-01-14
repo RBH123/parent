@@ -47,7 +47,8 @@
         <result column="biz_system" property="bizSystem" />
         <result column="tenant_id" property="tenantId" />
         <result column="remark" property="remark" />
-        <result column="extend_filed_json" property="extendFiledJson" />
+        <result column="extend_filed_json" property="extendFiledJson"
+          typeHandler="ruan.provider.handler.ListTypeHandler"/>
         <result column="is_deleted" property="isDeleted" />
         <result column="created_by" property="createdBy" />
         <result column="created_time" property="createdTime" />

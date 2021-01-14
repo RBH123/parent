@@ -1,11 +1,13 @@
 package ruan.provider.pojo.vo;
 
 import java.sql.Date;
+import java.util.List;
 import lombok.*;
 import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import ruan.provider.entity.ListDemo;
 
 /**
 * 融资表
@@ -194,7 +196,7 @@ public class FinanceVo implements Serializable {
     /**
     * 扩展字段
     */
-    private String extendFiledJson;
+    private List<ListDemo> extendFiledJson;
     /**
     * 是否已删除 1.删除 0.未删除
     */

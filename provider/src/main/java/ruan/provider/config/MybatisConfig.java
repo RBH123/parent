@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import ruan.provider.common.DynamicDataSourceContextHolder;
 import ruan.provider.common.SqlStatementInterceptor;
 
 import javax.annotation.Resource;
@@ -46,9 +45,10 @@ public class MybatisConfig {
     }
 
     @Bean("dynamicDataSource")
+    @SneakyThrows
     public DataSource dynamicDataSource(){
         MultiDataSource multiDataSource = new MultiDataSource();
-        Map<Object,Object> dataSourceMap = Maps.newHashMap();
+        Map<String,DataSource> dataSourceMap = Maps.newHashMap();
         dataSourceMap.put("master",master());
         dataSourceMap.put("slave",slave());
         multiDataSource.setDataSource(dataSourceMap);

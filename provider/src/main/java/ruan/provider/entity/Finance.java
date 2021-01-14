@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.sql.Date;
 import java.io.Serializable;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -290,7 +291,7 @@ public class Finance extends Model<Finance> {
      * 扩展字段
      */
     @TableField("extend_filed_json")
-    private String extendFiledJson;
+    private List<ListDemo> extendFiledJson;
 
     /**
      * 是否已删除 1.删除 0.未删除

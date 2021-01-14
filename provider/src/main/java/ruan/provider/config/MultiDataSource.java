@@ -1,5 +1,6 @@
 package ruan.provider.config;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
@@ -27,8 +28,10 @@ public class MultiDataSource extends AbstractRoutingDataSource {
     }
 
 
-    public void setDataSource(Map<Object,Object> dataSource){
-        super.setTargetDataSources(dataSource);
+    public void setDataSource(Map<String,DataSource> dataSource){
+        Map<Object,Object> map = Maps.newHashMap();
+        map.putAll(dataSource);
+        super.setTargetDataSources(map);
         DynamicDataSourceContextHolder.setTragetDataSource(Lists.newArrayList(dataSource.keySet()));
     }
 }

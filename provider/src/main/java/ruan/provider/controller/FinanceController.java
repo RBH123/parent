@@ -26,7 +26,7 @@ public class FinanceController {
     @Autowired
     private FinanceService financeService;
 
-    @DynamicDataSource(value = "slave1")
+    @DynamicDataSource(value = "slave")
     @RequestMapping(value = "/getFinanceById",method = RequestMethod.POST)
     public void getFinanceById(){
         FinanceVo finance = financeService.getFinanceById(BigInteger.valueOf(3865163402805137408L));

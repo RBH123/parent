@@ -102,6 +102,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     call-setters-on-nulls: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-handlers-package: ruan.provider.handler
 elaticjob:
   zookeeper:
     server-lists: 192.168.17.14:2181
