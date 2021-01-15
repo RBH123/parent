@@ -90,6 +90,15 @@ spring:
     port: 6379
   application:
     name: provider
+  mail:
+    host: smtp.qq.com
+    username: 1692100705@qq.com
+    password: xzrrjoxbhxlecjhg
+    default-encoding: UTF-8
+    protocol: smtp
+  servlet:
+    multipart:
+      max-file-size: 100MB
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
   global-config:

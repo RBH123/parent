@@ -72,6 +72,34 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.ftl</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.sql</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources/tmp</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <targetPath>tmp</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
