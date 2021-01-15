@@ -10,11 +10,16 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ruan.provider.common.ServerException;
 
 
@@ -75,7 +80,7 @@ public class FileUtil {
     }
 
     @SneakyThrows
-    public void uploadFile(MultipartFile file) {
+    public static void uploadFile(MultipartFile file) {
         String name = file.getName();
         String now = LocalDateTimeUtil.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         name = name.substring(0, name.lastIndexOf(".")).concat(now)
@@ -99,6 +104,46 @@ public class FileUtil {
             }
         } catch (Exception e) {
             log.error("文件上传异常:{}", e);
+        }
+    }
+
+    public static void multiFileUpload(HttpServletRequest request) {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver(
+                request.getSession().getServletContext());
+        boolean multipart = resolver.isMultipart(request);
+        if (multipart) {
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            List<MultipartFile> files = multipartRequest.getFiles("files");
+            if (CollectionUtils.isEmpty(files)) {
+                return;
+            }
+            files.forEach(f -> {
+                String name = f.getOriginalFilename();
+                String now = LocalDateTimeUtil.format(LocalDate.now(), "yyyy-MM-dd");
+                name = name.substring(0, name.lastIndexOf(".")).concat(now)
+                        .concat(name.substring(name.lastIndexOf("."), name.length()));
+                File tmp = null;
+                try {
+                    tmp = ResourceUtils.getFile("classpath:\\tmp");
+                } catch (Exception e) {
+                    log.error("文件不存在:{}", e);
+                }
+                if (!tmp.exists()) {
+                    return;
+                }
+                File newFile = new File(tmp.getAbsolutePath().concat("\\").concat(name));
+                try (BufferedInputStream bi = new BufferedInputStream(f.getInputStream());
+                        BufferedOutputStream bo = new BufferedOutputStream(
+                                new FileOutputStream(newFile))) {
+                    byte[] bytes = new byte[1024];
+                    int length;
+                    while ((length = bi.read(bytes)) > 0) {
+                        bo.write(bytes);
+                    }
+                } catch (Exception e) {
+                    log.error("多文件上传异常:{}", e);
+                }
+            });
         }
     }
 }

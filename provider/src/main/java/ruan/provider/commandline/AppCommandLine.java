@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import ruan.provider.elasticsearch.ElasticsearchUtil;
 import ruan.provider.message.mail.MailSend;
-import ruan.provider.util.FileUtil;
 
 @Slf4j
 @Component
@@ -21,6 +20,5 @@ public class AppCommandLine implements CommandLineRunner {
     @Override
     @SneakyThrows
     public void run(String... args){
-        FileUtil.uploadFile("D:\\WePE.txt");
     }
 }
