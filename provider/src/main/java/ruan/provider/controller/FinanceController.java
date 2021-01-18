@@ -2,12 +2,15 @@ package ruan.provider.controller;
 
 
 import java.math.BigInteger;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ruan.provider.anno.DynamicDataSource;
+import ruan.provider.entity.FileUpload;
 import ruan.provider.pojo.vo.FinanceVo;
 import ruan.provider.service.FinanceService;
 import ruan.provider.util.FileUtil;
@@ -36,5 +39,10 @@ public class FinanceController {
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public void upload(HttpServletRequest request){
         FileUtil.multiFileUpload(request);
+    }
+
+    @RequestMapping(value = "/uploadMulti",method = RequestMethod.POST)
+    public void uploadMulti(FileUpload fileUpload){
+        FileUtil.breakpointResume(fileUpload);
     }
 }

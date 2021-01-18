@@ -6,6 +6,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.time.LocalDate;
@@ -14,13 +15,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ruan.provider.common.ServerException;
+import ruan.provider.entity.FileUpload;
 
 
 @Slf4j
@@ -144,6 +146,59 @@ public class FileUtil {
                     log.error("多文件上传异常:{}", e);
                 }
             });
+        }
+    }
+
+
+    public static void breakpointResume(FileUpload fileUpload) {
+        if (fileUpload == null) {
+            return;
+        }
+        try {
+            File tmp = ResourceUtils.getFile("classpath:\\tmp");
+            if (!tmp.exists()) {
+                tmp.mkdir();
+            }
+            MultipartFile uploadFile = fileUpload.getFile();
+            String fileName = fileUpload.getFileName();
+            File newFile = new File(tmp.getAbsolutePath().concat("\\").concat(fileName));
+            if (!newFile.exists()) {
+                newFile.createNewFile();
+            }
+            try (BufferedInputStream bi = new BufferedInputStream(
+                    uploadFile.getInputStream()); RandomAccessFile raOutput = new RandomAccessFile(
+                    newFile, "rw")) {
+                raOutput.setLength(uploadFile.getSize());
+                if (fileUpload.getCurrentShard() < fileUpload.getTotalShard() - 1) {
+                    raOutput.seek(fileUpload.getCurrentShard() * fileUpload.getCurrentSize());
+                } else {
+                    raOutput.seek(fileUpload.getSize() - fileUpload.getCurrentSize());
+                }
+                int length;
+                byte[] bytes = new byte[1024];
+                while ((length = bi.read(bytes)) > -1) {
+                    raOutput.write(bytes, 0, length);
+                }
+            } catch (Exception e) {
+                log.error("", e);
+            }
+        } catch (Exception e) {
+            log.error("", e);
+        }
+    }
+
+    public void keepUpload(File sourceFile, File targetFile, long position) {
+        try (RandomAccessFile raInput = new RandomAccessFile(sourceFile, "rw");
+                RandomAccessFile raOutput = new RandomAccessFile(targetFile, "rw")) {
+            raInput.seek(position);
+            raOutput.seek(position);
+            byte[] bytes = new byte[1024];
+            int length;
+            while ((length = raInput.read(bytes)) != -1){
+                raOutput.write(bytes,0,length);
+            }
+        } catch (Exception e) {
+
         }
     }
 }
