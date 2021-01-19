@@ -16,7 +16,5 @@ class ProviderApplicationTests {
 
     @Test
     void contextLoads() {
-        CodeGenerate.generate("C:\\Users\\admin\\IdeaProjects\\parent1\\provider","\\ruan\\provider"
-                , new String[]{"t_sy_finance"});
     }
 }

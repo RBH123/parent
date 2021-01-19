@@ -17,7 +17,7 @@ import org.springframework.retry.annotation.EnableRetry;
 public class ProviderApplication {
 
     public static void main(String[] args) {
-        ElasticApmAttacher.attach("classpath:/elasticapm.properties");
+//        ElasticApmAttacher.attach("classpath:/elasticapm.properties");
         SpringApplication.run(ProviderApplication.class, args);
     }
 }
