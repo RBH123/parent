@@ -126,6 +126,8 @@
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
+                    <dockerfile>dockerfile/Dockerfile</dockerfile>
+                    <skipPush>false</skipPush>
                 </configuration>
             </plugin>
         </plugins>
