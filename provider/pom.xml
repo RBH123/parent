@@ -123,7 +123,6 @@
                 <configuration>
                     <repository>ruanqiao/provider</repository>
                     <tag>${project.version}</tag>
-                    <skipPush>true</skipPush>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
