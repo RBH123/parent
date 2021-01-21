@@ -113,7 +113,8 @@
                 <version>1.4.13</version>
                 <executions>
                     <execution>
-                        <id>default</id>
+                        <id>pushimage</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                             <goal>push</goal>
