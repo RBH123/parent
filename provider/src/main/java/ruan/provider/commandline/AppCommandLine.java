@@ -12,11 +12,6 @@ import ruan.provider.message.mail.MailSend;
 @Component
 public class AppCommandLine implements CommandLineRunner {
 
-    @Autowired
-    private ElasticsearchUtil elasticsearchUtil;
-    @Autowired
-    private MailSend mailSend;
-
     @Override
     @SneakyThrows
     public void run(String... args){

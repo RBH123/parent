@@ -1,6 +1,7 @@
 package ruan.provider;
 
-import co.elastic.apm.attach.ElasticApmAttacher;
+import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;
+import com.alicp.jetcache.anno.config.EnableMethodCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -8,7 +9,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.retry.annotation.EnableRetry;
+import ruan.provider.anno.EnableWebFilter;
 
+@EnableMethodCache(basePackages = "ruan.provider")
+@EnableCreateCacheAnnotation
+@EnableWebFilter
 @EnableRetry
 @EnableFeignClients
 @RefreshScope

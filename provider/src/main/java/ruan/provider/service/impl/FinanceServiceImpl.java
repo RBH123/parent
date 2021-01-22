@@ -1,22 +1,23 @@
 package ruan.provider.service.impl;
 
+import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.anno.CacheRefresh;
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.Cached;
+import com.alicp.jetcache.anno.CreateCache;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import java.math.BigInteger;
+import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.Interceptor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
-import org.springframework.retry.interceptor.RetryInterceptorBuilder;
-import org.springframework.retry.interceptor.RetryInterceptorBuilder.StatefulRetryInterceptorBuilder;
-import ruan.provider.common.RetryInterceptor;
+import org.springframework.stereotype.Service;
 import ruan.provider.entity.Finance;
 import ruan.provider.mapper.FinanceDao;
 import ruan.provider.pojo.vo.FinanceVo;
 import ruan.provider.service.FinanceService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -30,22 +31,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class FinanceServiceImpl extends ServiceImpl<FinanceDao, Finance> implements FinanceService {
 
-    int cnt = 0;
+    @CreateCache(expire = 5, timeUnit = TimeUnit.MINUTES)
+    Cache<String, FinanceVo> financeCache;
 
     @Override
     @SneakyThrows
-    @Retryable(value = Exception.class,maxAttempts = 3,backoff = @Backoff(delay = 500,maxDelay =
-            2000,multiplier = 2))
-    public FinanceVo getFinanceById(BigInteger financeId){
+    @Retryable(value = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 500, maxDelay = 2000, multiplier = 2))
+    @Cached(expire = 100, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.REMOTE, key = "#financeId")
+    @CacheRefresh(refresh = 10)
+    public FinanceVo getFinanceById(BigInteger financeId) {
         Finance finance = this.baseMapper.getFinanceById(financeId);
-        cnt++;
-        log.info("重试次数:{}",cnt);
-        throw new Exception();
-//        if(finance == null){
-//            return null;
-//        }
-//        FinanceVo vo = new FinanceVo();
-//        BeanUtils.copyProperties(finance,vo);
-//        return vo;
+        if (finance == null) {
+            return null;
+        }
+        FinanceVo vo = new FinanceVo();
+        BeanUtils.copyProperties(finance, vo);
+        return vo;
     }
 }

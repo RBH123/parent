@@ -118,3 +118,26 @@ elaticjob:
     namespace: elasticjob
 logging:
   config: classpath:logback-spring.xml
+
+jetcache:
+  statIntervalMinutes: 5
+  areaInCacheName: false
+  hiddenPackages: ruan.provider
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      host: ${spring.redis.host}
+      port: ${spring.redis.port}
+
