@@ -40,6 +40,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceDao, Finance> impleme
     @Cached(expire = 100, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.REMOTE, key = "#financeId")
     @CacheRefresh(refresh = 10)
     public FinanceVo getFinanceById(BigInteger financeId) {
+        log.info("获取数据");
         Finance finance = this.baseMapper.getFinanceById(financeId);
         if (finance == null) {
             return null;

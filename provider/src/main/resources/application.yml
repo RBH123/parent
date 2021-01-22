@@ -120,7 +120,7 @@ logging:
   config: classpath:logback-spring.xml
 
 jetcache:
-  statIntervalMinutes: 5
+  statIntervalMinutes: 15
   areaInCacheName: false
   hiddenPackages: ruan.provider
   local:
@@ -130,7 +130,7 @@ jetcache:
       limit: 100
   remote:
     default:
-      type: redis.lettuce
+      type: redis.lettuce4
       keyConvertor: fastjson
       valueEncoder: java
       valueDecoder: java
@@ -138,6 +138,5 @@ jetcache:
         minIdle: 5
         maxIdle: 20
         maxTotal: 50
-      host: ${spring.redis.host}
-      port: ${spring.redis.port}
-
+      uri:
+        - redis://@192.168.17.14:6379
