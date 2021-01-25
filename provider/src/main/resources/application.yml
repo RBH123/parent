@@ -139,4 +139,4 @@ jetcache:
         maxIdle: 20
         maxTotal: 50
       uri:
-        - redis://@192.168.17.14:6379
+        - redis://217024@192.168.17.14:6379/0

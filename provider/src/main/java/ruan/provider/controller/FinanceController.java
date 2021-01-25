@@ -2,14 +2,11 @@ package ruan.provider.controller;
 
 
 import java.math.BigInteger;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ruan.provider.anno.DynamicDataSource;
 import ruan.provider.entity.FileUpload;
 import ruan.provider.pojo.vo.FinanceVo;
 import ruan.provider.service.FinanceService;
@@ -30,19 +27,19 @@ public class FinanceController {
     @Autowired
     private FinanceService financeService;
 
-    @DynamicDataSource(value = "slave")
-    @RequestMapping(value = "/getFinanceById",method = RequestMethod.POST)
-    public void getFinanceById(){
-        FinanceVo finance = financeService.getFinanceById(BigInteger.valueOf(3865163402805137408L));
+    @RequestMapping(value = "/getFinanceById", method = RequestMethod.POST)
+    public void getFinanceById() {
+        FinanceVo finance = financeService.getFinanceById(BigInteger.valueOf(3872433444714336256L));
         System.out.println(finance);
     }
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    public void upload(HttpServletRequest request){
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public void upload(HttpServletRequest request) {
         FileUtil.multiFileUpload(request);
     }
 
-    @RequestMapping(value = "/uploadMulti",method = RequestMethod.POST)
-    public void uploadMulti(FileUpload fileUpload){
+    @RequestMapping(value = "/uploadMulti", method = RequestMethod.POST)
+    public void uploadMulti(FileUpload fileUpload) {
         FileUtil.breakpointResume(fileUpload);
     }
 }

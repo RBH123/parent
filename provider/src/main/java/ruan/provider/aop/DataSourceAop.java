@@ -22,22 +22,24 @@ import ruan.provider.common.ServerException;
 public class DataSourceAop {
 
     @Pointcut("@annotation(ruan.provider.anno.DynamicDataSource)")
-    public void pointCut(){}
+    public void pointCut() {
+    }
 
     /**
      * 设置动态数据源
+     *
      * @param point
      */
     @Before("pointCut()")
     @SneakyThrows
-    public void switchDataSource(JoinPoint point){
+    public void switchDataSource(JoinPoint point) {
         MethodSignature signature = (MethodSignature) point.getSignature();
         DynamicDataSource annotation = signature.getMethod().getAnnotation(DynamicDataSource.class);
-        if(annotation == null){
+        if (annotation == null) {
             return;
         }
         String value = annotation.value();
-        if(!DynamicDataSourceContextHolder.containDataSourceKey(value)){
+        if (!DynamicDataSourceContextHolder.containDataSourceKey(value)) {
             throw new ServerException("数据源列表不包含当前指定数据源！");
         }
         DynamicDataSourceContextHolder.setDataSource(value);
@@ -45,13 +47,14 @@ public class DataSourceAop {
 
     /**
      * 清空数据源
+     *
      * @param point
      */
     @After("pointCut()")
-    public void clearDataSource(JoinPoint point){
+    public void clearDataSource(JoinPoint point) {
         MethodSignature signature = (MethodSignature) point.getSignature();
         DynamicDataSource annotation = signature.getMethod().getAnnotation(DynamicDataSource.class);
-        if(annotation == null){
+        if (annotation == null) {
             return;
         }
         DynamicDataSourceContextHolder.emptyDataSource();

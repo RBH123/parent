@@ -37,7 +37,8 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceDao, Finance> impleme
     @Override
     @SneakyThrows
     @Retryable(value = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 500, maxDelay = 2000, multiplier = 2))
-    @Cached(expire = 100, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.REMOTE, key = "#financeId")
+    @Cached(expire = 100, timeUnit = TimeUnit.SECONDS, cacheType = CacheType.REMOTE, name =
+            "finance:", key = "#financeId", cacheNullValue = true)
     @CacheRefresh(refresh = 10)
     public FinanceVo getFinanceById(BigInteger financeId) {
         log.info("获取数据");
