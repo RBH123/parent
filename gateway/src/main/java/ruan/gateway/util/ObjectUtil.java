@@ -44,6 +44,9 @@ public class ObjectUtil {
             BeanInfo beanInfo = Introspector.getBeanInfo(object.getClass());
             PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor descriptor : descriptors) {
+                if(descriptor.getName().equalsIgnoreCase("class")){
+                    continue;
+                }
                 String name = descriptor.getName();
                 Object value = descriptor.getReadMethod().invoke(object);
                 if(value != null){

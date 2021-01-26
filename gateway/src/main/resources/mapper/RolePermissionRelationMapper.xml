@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ruan.gateway.mapper.RolePermissionRelationDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ruan.gateway.entity.RolePermissionRelation">
+        <id column="relation_id" property="relationId" />
+        <result column="role_id" property="roleId" />
+        <result column="permission_id" property="permissionId" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        relation_id, role_id, permission_id, is_deleted, created_time, updated_time
+    </sql>
+
+    <select id="getPermissionIdByUserId" resultType="java.math.BigInteger">
+        SELECT p.permission_id FROM user_role_relation r
+            INNER JOIN role_permission_relation p
+                ON
+            r.role_id = p.role_id
+        WHERE r.is_deleted =0
+          AND p.is_deleted = 0
+          AND r.user_id = #{userId}
+    </select>
+</mapper>

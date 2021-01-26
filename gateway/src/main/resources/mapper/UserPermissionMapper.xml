@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ruan.gateway.mapper.UserPermissionDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ruan.gateway.entity.UserPermission">
+        <id column="permission_id" property="permissionId" />
+        <result column="permission" property="permission" />
+        <result column="name" property="name" />
+        <result column="desc" property="desc" />
+        <result column="url" property="url" />
+        <result column="type" property="type" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        permission_id, permission, name, desc, url, type, is_deleted, created_time, updated_time
+    </sql>
+
+    <select id="getUserPermissionsByIdList" resultMap="BaseResultMap">
+        SELECT * FROM user_permission WHERE is_deleted = 0 and permission_id in
+        <foreach collection="permissionIdList" item="permissionId" open="(" separator="," close=")">
+            #{permissionId}
+        </foreach>
+    </select>
+</mapper>

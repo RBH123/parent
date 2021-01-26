@@ -1,52 +1,62 @@
 package ruan.gateway.config;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import java.util.Map;
+import javax.servlet.FilterChain;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ruan.gateway.common.CommonResult;
+import ruan.gateway.common.ResultEnum;
+import ruan.gateway.common.ServerException;
+import ruan.gateway.entity.UserInfo;
+import ruan.gateway.util.HttpUtil;
 import ruan.gateway.util.JwtUtils;
-
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import ruan.gateway.util.ObjectUtil;
 
 @Slf4j
 public class LoginAuthentication extends UsernamePasswordAuthenticationFilter {
 
     private JwtUtils jwtUtils;
 
-    LoginAuthentication(AuthenticationManager manager, JwtUtils jwtUtils) {
-        super.setAuthenticationManager(manager);
+    LoginAuthentication(AuthenticationProvider provider, JwtUtils jwtUtils) {
+        super();
+        super.setAuthenticationManager(new ProviderManager(provider));
         this.jwtUtils = jwtUtils;
-        super.setFilterProcessesUrl("/login");
     }
 
     @Override
     @SneakyThrows
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        String requestURI = request.getRequestURI();
-        log.info("请求地址:{}", requestURI);
-        String token = request.getHeader("token");
-        User user = jwtUtils.parseToken(token);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+    public Authentication attemptAuthentication(HttpServletRequest request,
+            HttpServletResponse response) {
+        String jsonBody = HttpUtil.getRequestJsonBody(request);
+        if(StringUtils.isBlank(jsonBody)){
+            throw new ServerException(ResultEnum.PARAM_ERROR.getCode(), ResultEnum.PARAM_ERROR.getMessage());
+        }
+        UserInfo userInfo = JSON.parseObject(jsonBody, UserInfo.class);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userInfo.getUsername(), userInfo.getPassword());
         super.setDetails(request, usernamePasswordAuthenticationToken);
         return super.getAuthenticationManager().authenticate(usernamePasswordAuthenticationToken);
     }
 
     @Override
     @SneakyThrows
-    public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
+    public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+            FilterChain chain, Authentication authResult) {
         SecurityContextHolder.getContext().setAuthentication(authResult);
-        User principal = (User) authResult.getPrincipal();
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("username", principal.getUsername());
-        map.put("password", principal.getPassword());
+        UserInfo principal = (UserInfo) authResult.getPrincipal();
+        Map<String, Object> map = ObjectUtil.beanToMap(principal);
         String token = jwtUtils.generateToken(map);
         Map<String, Object> result = Maps.newHashMap();
         result.put("token", token);
