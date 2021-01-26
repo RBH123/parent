@@ -28,8 +28,8 @@ public class CustomerAuthenticProvider implements AuthenticationProvider {
         String password = token.getCredentials().toString();
         UserInfo userInfo = (UserInfo) userDetailsService.loadUserByUsername(username);
         Optional.ofNullable(userInfo).orElseThrow(
-                () -> new ServerException(ResultEnum.PARAM_ERROR.getCode(),
-                        ResultEnum.PARAM_ERROR.getMessage()));
+                () -> new ServerException(ResultEnum.ACCOUNT_NOT_FOUND.getCode(),
+                        ResultEnum.ACCOUNT_NOT_FOUND.getMessage()));
         if (UserStatusEnum.LOCK.getCode().equals(userInfo.getStatus())) {
             throw new ServerException(ResultEnum.ACCOUNT_LOCK.getCode(),
                     ResultEnum.ACCOUNT_LOCK.getMessage());

@@ -11,7 +11,9 @@ public enum ResultEnum {
     PASSWORD_ERROR(10004, "密码错误！"),
     AUTHENTICATION_PARAM_ERROR(10005, "请输入完整的登录信息！"),
     ACCOUNT_LOCK(10006, "账户已锁定！"),
-    ACCOUNT_FORBIDDEN(10007, "账户已禁用！");
+    ACCOUNT_FORBIDDEN(10007, "账户已禁用！"),
+    ACCOUNT_NOT_FOUND(10008, "没有发现此账户，请先注册！");
+
 
     private Integer code;
     private String message;
