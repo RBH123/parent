@@ -1,8 +1,6 @@
 package ruan.gateway.util;
 
-import com.google.common.collect.Lists;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.time.Instant;
@@ -12,6 +10,7 @@ import java.util.Date;
 import java.util.Map;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import ruan.gateway.entity.JwtProperties;
@@ -37,12 +36,8 @@ public class JwtUtils {
     public User parseToken(String token) {
         User user = null;
         try {
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(jwtProperties.getSecrt())
-                    .parseClaimsJws(token);
-            Claims claims = claimsJws.getBody();
-            String username = claims.getOrDefault("username", "").toString();
-            String password = claims.getOrDefault("password", "").toString();
-            user = new User(username, password, Lists.newArrayList());
+            Claims claims = getClaims(token);
+            user = ObjectUtil.mapToObject(claims, User.class);
         } catch (Exception e) {
             log.error("异常！");
         }
@@ -56,5 +51,23 @@ public class JwtUtils {
     public Date getExpireDate() {
         return Date.from(Instant
                 .ofEpochMilli(getCurrentDate().getTime() + jwtProperties.getExpire() * 1000));
+    }
+
+    public Claims getClaims(String token) {
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
+        return Jwts.parser().setSigningKey(jwtProperties.getSecrt()).parseClaimsJws(token).getBody();
+    }
+
+    public boolean isExpired(String token) {
+        Claims claims = getClaims(token);
+        Date expiration = claims.getExpiration();
+        return expiration.before(new Date());
+    }
+
+    public String refreshToken(String token) {
+        Claims claims = getClaims(token);
+        return generateToken(claims);
     }
 }

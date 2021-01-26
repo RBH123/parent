@@ -4,7 +4,6 @@ package ruan.gateway.config;
 import java.util.List;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ruan.gateway.entity.UserInfo;
@@ -24,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @SneakyThrows
-    public UserDetails loadUserByUsername(String username) {
+    public UserInfo loadUserByUsername(String username) {
         UsersAo ao = UsersAo.builder().username(username).build();
         Object users = usersService.getUsersByUserId(ao);
         if (users == null) {
@@ -39,6 +38,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<UserPermissionVo> permissionVos = userPermissionService
                 .getPermissionsByUserId(vo.getUserId());
         return UserInfo.builder().username(vo.getUsername()).password(vo.getPassword())
-                .userPermissionVoList(permissionVos).build();
+                .userPermissionVoList(permissionVos).status(vo.getStatus()).build();
     }
 }

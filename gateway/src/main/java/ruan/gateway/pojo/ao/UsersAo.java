@@ -1,5 +1,6 @@
 package ruan.provider.pojo.ao;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import java.math.BigInteger;
 import lombok.*;
 import lombok.EqualsAndHashCode;
@@ -43,6 +44,10 @@ public class UsersAo implements Serializable {
     * 邮箱
     */
     private String mail;
+    /**
+     * 账户状态，0--正常，1--锁定，2--禁用
+     */
+    private Integer status;
     /**
     * 角色
     */

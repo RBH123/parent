@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private CustomerAuthenticProvider authenticProvider;
 
     static String[] NO_AUTHENTICATION = new String[]{
-            "/**/login", "/**/register"
+            "/**/login", "/**/register", "/**/*.html", "/**/*.jsp"
     };
 
     @Autowired
@@ -69,13 +67,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
+                //登录验证过滤器
                 .addFilterBefore(new LoginAuthentication(authenticProvider, jwtUtils),
                         UsernamePasswordAuthenticationFilter.class)
+                //权限校验过滤器
                 .addFilterBefore(new JwtAuthenticionFilter(),
                         UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl().disable();
         http.exceptionHandling()
+                //没有权限返回信息
                 .accessDeniedHandler(handler)
+                //校验失败返回异常
                 .authenticationEntryPoint(entryPoint);
 
     }

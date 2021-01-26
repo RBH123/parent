@@ -1,5 +1,6 @@
 package ruan.provider.pojo.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import java.math.BigInteger;
 import lombok.*;
 import lombok.EqualsAndHashCode;
@@ -47,6 +48,10 @@ public class UsersVo implements Serializable {
     * 角色
     */
     private Integer role;
+    /**
+     * 账户状态，0--正常，1--锁定，2--禁用
+     */
+    private Integer status;
     /**
     * 是否删除，0--否，1--是
     */

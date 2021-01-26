@@ -1,14 +1,14 @@
 package ruan.gateway.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.sql.Timestamp;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.math.BigInteger;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -74,6 +74,12 @@ public class Users extends Model<Users> {
      */
     @TableField("role")
     private Integer role;
+
+    /**
+     * 账户状态，0--正常，1--锁定，2--禁用
+     */
+    @TableField("status")
+    private Integer status;
 
     /**
      * 是否删除，0--否，1--是

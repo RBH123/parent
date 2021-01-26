@@ -8,7 +8,10 @@ public enum ResultEnum {
     PARAM_ERROR(10001, "请求参数异常"),
     NO_POWERED(10002, "没有权限访问！"),
     TOKEN_OVERDUE(10003, "token已过期！"),
-    PASSWORD_ERROR(10004, "密码错误！");
+    PASSWORD_ERROR(10004, "密码错误！"),
+    AUTHENTICATION_PARAM_ERROR(10005, "请输入完整的登录信息！"),
+    ACCOUNT_LOCK(10006, "账户已锁定！"),
+    ACCOUNT_FORBIDDEN(10007, "账户已禁用！");
 
     private Integer code;
     private String message;
