@@ -18,9 +18,13 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
             HttpServletResponse response, AuthenticationException e) {
         response.setContentType("application/json");
+        String code = request.getAttribute("code") != null ? request.getAttribute("code").toString()
+                : ResultEnum.SERVER_ERROR.getCode().toString();
+        String message =
+                request.getAttribute("msg") != null ? request.getAttribute("msg").toString()
+                        : ResultEnum.SERVER_ERROR.getMessage();
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().println(CommonResult.FAIL(ResultEnum.TOKEN_OVERDUE.getCode(),
-                ResultEnum.TOKEN_OVERDUE.getMessage()).toJson());
+        response.getWriter().println(CommonResult.FAIL(Integer.parseInt(code), message).toJson());
         response.getWriter().flush();
     }
 }

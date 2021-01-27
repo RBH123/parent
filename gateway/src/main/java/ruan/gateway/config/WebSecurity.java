@@ -68,11 +68,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 //登录验证过滤器
-                .addFilterBefore(new LoginAuthentication(authenticProvider, jwtUtils),
+                .addFilterBefore(new LoginAuthenticationFilter(authenticProvider, jwtUtils),
                         UsernamePasswordAuthenticationFilter.class)
                 //权限校验过滤器
                 .addFilterBefore(new JwtAuthenticionFilter(),
                         UsernamePasswordAuthenticationFilter.class);
+//                .addFilterAfter(new CustomExceptionTranslationFilter(entryPoint),
+//                        ExceptionTranslationFilter.class);
         http.headers().cacheControl().disable();
         http.exceptionHandling()
                 //没有权限返回信息
@@ -84,7 +86,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     @SneakyThrows
-    protected void configure(AuthenticationManagerBuilder auth) {
+    public void configure(AuthenticationManagerBuilder auth) {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 }
