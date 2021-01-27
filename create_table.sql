@@ -106,8 +106,19 @@ CREATE TABLE `users` (
                          `mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
                          `mail` varchar(255) DEFAULT NULL COMMENT '邮箱',
                          `role` tinyint(4) DEFAULT NULL COMMENT '角色',
+                         `status` tinyint(4) DEFAULT '0' COMMENT '账户状态，0--正常，1--锁定，2--禁用',
                          `is_deleted` tinyint(4) DEFAULT '0' COMMENT '是否删除，0--否，1--是',
                          `created_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
                          `updated_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                          PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `token_record` (
+                                `record_id` bigint(20) NOT NULL,
+                                `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+                                `token` varchar(1024) DEFAULT NULL COMMENT 'token',
+                                `status` tinyint(4) DEFAULT '0' COMMENT 'token状态，0--正常，1--失效',
+                                `created_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `updated_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                PRIMARY KEY (`record_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
