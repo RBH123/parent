@@ -1,7 +1,6 @@
 package ruan.gateway.security;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Maps;
 import java.util.Map;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -16,24 +15,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import ruan.gateway.common.CommonResult;
 import ruan.gateway.common.CustomAuthenticationException;
 import ruan.gateway.common.ResultEnum;
 import ruan.gateway.entity.UserInfo;
+import ruan.gateway.service.TokenRecordService;
 import ruan.gateway.util.HttpUtil;
 import ruan.gateway.util.JwtUtils;
 import ruan.gateway.util.ObjectUtil;
+import ruan.gateway.util.SnowflakesUtil;
+import ruan.provider.pojo.vo.TokenRecordVo;
 
 @Slf4j
 public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private JwtUtils jwtUtils;
 
-    LoginAuthenticationFilter(AuthenticationProvider provider, JwtUtils jwtUtils) {
+    private TokenRecordService tokenRecordService;
+
+    LoginAuthenticationFilter(AuthenticationProvider provider, JwtUtils jwtUtils,
+            TokenRecordService tokenRecordService) {
         super();
         super.setAuthenticationManager(new ProviderManager(provider));
         this.jwtUtils = jwtUtils;
+        this.tokenRecordService = tokenRecordService;
     }
 
     @Override
@@ -69,11 +74,12 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
         UserInfo principal = (UserInfo) authResult.getPrincipal();
         Map<String, Object> map = ObjectUtil.beanToMap(principal);
         String token = jwtUtils.generateToken(map);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put("Authenticion", token);
+        TokenRecordVo vo = TokenRecordVo.builder().token(token).userId(SnowflakesUtil.INSTANCE()
+                .nextId()).build();
+        tokenRecordService.addTokenRecord(vo);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().println(CommonResult.SUCCESS(result).toJson());
+        response.getWriter().println(CommonResult.SUCCESS(token).toJson());
     }
 
     @Override

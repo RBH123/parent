@@ -1,5 +1,7 @@
 package ruan.gateway.entity;
 
+import java.math.BigInteger;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -10,8 +12,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
 import ruan.provider.pojo.vo.UserPermissionVo;
 
 @Data
@@ -23,16 +23,18 @@ public class UserInfo implements UserDetails {
     private String username;
     private String password;
     private Integer status;
+    private BigInteger userId;
     private List<UserPermissionVo> userPermissionVoList;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(CollectionUtils.isEmpty(userPermissionVoList)){
+        if (CollectionUtils.isEmpty(userPermissionVoList)) {
             return null;
         }
-        return userPermissionVoList.parallelStream().map(u->{
-            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(u.getPermission().toString());
+        return userPermissionVoList.parallelStream().map(u -> {
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
+                    u.getPermission().toString());
             return authority;
         }).collect(Collectors.toList());
     }

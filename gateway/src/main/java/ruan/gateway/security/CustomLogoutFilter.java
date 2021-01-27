@@ -3,6 +3,8 @@ package ruan.gateway.security;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
@@ -24,6 +26,11 @@ public class CustomLogoutFilter extends LogoutFilter {
     @Override
     @SneakyThrows
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
-        log.info("登出！");
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+        if (super.requiresLogout(request, response)) {
+            log.info("登出！");
+        }
+        chain.doFilter(req, res);
     }
 }

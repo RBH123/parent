@@ -39,7 +39,7 @@ public class CodeGenerate {
     public static void main(String[] args){
         String property = System.getProperty("user.dir")+"\\gateway";
         String projectPath = "\\ruan\\gateway";
-        String[] tableList = new String[]{"users"};
+        String[] tableList = new String[]{"token_record"};
         generate(property,projectPath,tableList);
     }
 

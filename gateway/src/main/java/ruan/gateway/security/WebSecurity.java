@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import ruan.gateway.service.TokenRecordService;
 import ruan.gateway.util.JwtUtils;
 
 @Slf4j
@@ -42,6 +43,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private CustomLogoutHandler logoutHandler;
     @Autowired
     private CustomLogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
+    private TokenRecordService tokenRecordService;
 
     @Bean
     @SneakyThrows
@@ -73,12 +76,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 //登录验证过滤器
                 .addFilterBefore(new LoginAuthenticationFilter(
-                                new CustomerAuthenticProvider(userDetailsService), jwtUtils),
+                                new CustomerAuthenticProvider(userDetailsService), jwtUtils,tokenRecordService),
                         UsernamePasswordAuthenticationFilter.class)
                 //权限校验过滤器
                 .addFilterBefore(new JwtAuthenticionFilter(jwtUtils),
                         UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new CustomLogoutFilter(logoutSuccessHandler,logoutHandler), LogoutFilter.class);
+                .addFilterBefore(new CustomLogoutFilter(logoutSuccessHandler, logoutHandler),
+                        LogoutFilter.class);
         http.headers().cacheControl().disable();
         http.exceptionHandling()
                 //没有权限返回信息
