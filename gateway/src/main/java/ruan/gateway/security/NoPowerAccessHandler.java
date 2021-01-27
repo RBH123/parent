@@ -1,4 +1,4 @@
-package ruan.gateway.config;
+package ruan.gateway.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -19,6 +19,6 @@ spring:
       maximum-pool-size: 50
       minimum-idle: 5
 jwt:
-  expire: 30
+  expire: 1800
   secrt: ruan
   head: token

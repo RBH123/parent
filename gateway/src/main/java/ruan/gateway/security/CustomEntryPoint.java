@@ -1,4 +1,4 @@
-package ruan.gateway.config;
+package ruan.gateway.security;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +18,9 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
             HttpServletResponse response, AuthenticationException e) {
         response.setContentType("application/json");
-        String code = request.getAttribute("code") != null ? request.getAttribute("code").toString()
-                : ResultEnum.SERVER_ERROR.getCode().toString();
-        String message =
-                request.getAttribute("msg") != null ? request.getAttribute("msg").toString()
-                        : ResultEnum.SERVER_ERROR.getMessage();
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().println(CommonResult.FAIL(Integer.parseInt(code), message).toJson());
+        response.getWriter().println(CommonResult.FAIL(ResultEnum.AUTHENTICATION_FAILED.getCode(),
+                ResultEnum.AUTHENTICATION_FAILED.getMessage()).toJson());
         response.getWriter().flush();
     }
 }

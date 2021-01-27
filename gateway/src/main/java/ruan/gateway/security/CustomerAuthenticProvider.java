@@ -1,24 +1,28 @@
-package ruan.gateway.config;
+package ruan.gateway.security;
 
 
 import java.util.Optional;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import ruan.gateway.common.CustomAuthenticationException;
 import ruan.gateway.common.ResultEnum;
 import ruan.gateway.constant.UserStatusEnum;
 import ruan.gateway.entity.UserInfo;
 
-@Component
+@Slf4j
 public class CustomerAuthenticProvider implements AuthenticationProvider {
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
+
+    public CustomerAuthenticProvider(UserDetailsService userDetailsService) {
+        super();
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     @SneakyThrows

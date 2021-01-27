@@ -1,4 +1,4 @@
-package ruan.gateway.config;
+package ruan.gateway.security;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import ruan.gateway.common.CommonResult;
 import ruan.gateway.common.CustomAuthenticationException;
 import ruan.gateway.common.ResultEnum;
@@ -72,7 +73,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
         result.put("Authenticion", token);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(CommonResult.SUCCESS(result).toJson().toString());
+        response.getWriter().println(CommonResult.SUCCESS(result).toJson());
     }
 
     @Override
@@ -84,12 +85,12 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
         response.setCharacterEncoding("UTF-8");
         if (failed instanceof CustomAuthenticationException) {
             CustomAuthenticationException exception = (CustomAuthenticationException) failed;
-            response.getWriter()
-                    .write(CommonResult.FAIL(exception.getCode(), exception.getMessage()).toJson()
-                            .toString());
+            response.getWriter().println(
+                    CommonResult.FAIL(exception.getCode(), exception.getMessage()).toJson());
         } else {
-            response.getWriter().write(CommonResult.FAIL(ResultEnum.SERVER_ERROR.getCode(),
-                    ResultEnum.SERVER_ERROR.getMessage()).toJson().toString());
+            response.getWriter().println(CommonResult
+                    .FAIL(ResultEnum.SERVER_ERROR.getCode(), ResultEnum.SERVER_ERROR.getMessage())
+                    .toJson());
         }
     }
 }
