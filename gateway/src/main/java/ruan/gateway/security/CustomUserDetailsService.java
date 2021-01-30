@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         List<UserPermissionVo> permissionVos = userPermissionService
                 .getPermissionsByUserId(vo.getUserId());
-        return UserInfo.builder().username(vo.getUsername()).password(vo.getPassword())
+        return UserInfo.builder().userId(vo.getUserId()).username(vo.getUsername()).password(vo.getPassword())
                 .userPermissionVoList(permissionVos).status(vo.getStatus()).build();
     }
 }

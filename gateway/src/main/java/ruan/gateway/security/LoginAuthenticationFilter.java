@@ -1,10 +1,6 @@
 package ruan.gateway.security;
 
 import com.alibaba.fastjson.JSON;
-import java.util.Map;
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,8 +19,12 @@ import ruan.gateway.service.TokenRecordService;
 import ruan.gateway.util.HttpUtil;
 import ruan.gateway.util.JwtUtils;
 import ruan.gateway.util.ObjectUtil;
-import ruan.gateway.util.SnowflakesUtil;
 import ruan.provider.pojo.vo.TokenRecordVo;
+
+import javax.servlet.FilterChain;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @Slf4j
 public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -33,8 +33,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
     private TokenRecordService tokenRecordService;
 
-    LoginAuthenticationFilter(AuthenticationProvider provider, JwtUtils jwtUtils,
-            TokenRecordService tokenRecordService) {
+    LoginAuthenticationFilter(AuthenticationProvider provider, JwtUtils jwtUtils, TokenRecordService tokenRecordService) {
         super();
         super.setAuthenticationManager(new ProviderManager(provider));
         this.jwtUtils = jwtUtils;
@@ -44,8 +43,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
     @Override
     @SneakyThrows
     public Authentication attemptAuthentication(HttpServletRequest request,
-            HttpServletResponse response) {
-        UsernamePasswordAuthenticationToken token = null;
+                                                HttpServletResponse response) {
         String jsonBody = HttpUtil.getRequestJsonBody(request);
         //请求信息中没有获取到用户名和密码
         if (StringUtils.isBlank(jsonBody)) {
@@ -60,8 +58,8 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                     ResultEnum.AUTHENTICATION_PARAM_ERROR.getCode(),
                     ResultEnum.AUTHENTICATION_PARAM_ERROR.getMessage());
         }
-        token = new UsernamePasswordAuthenticationToken(userInfo.getUsername(),
-                userInfo.getPassword());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                userInfo.getUsername(), userInfo.getPassword());
         super.setDetails(request, token);
         return super.getAuthenticationManager().authenticate(token);
     }
@@ -69,13 +67,15 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
     @Override
     @SneakyThrows
     public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-            FilterChain chain, Authentication authResult) {
+                                         FilterChain chain, Authentication authResult) {
         SecurityContextHolder.getContext().setAuthentication(authResult);
-        UserInfo principal = (UserInfo) authResult.getPrincipal();
-        Map<String, Object> map = ObjectUtil.beanToMap(principal);
+        UserInfo userInfo = (UserInfo) authResult.getPrincipal();
+        Map<String, Object> map = ObjectUtil.beanToMap(
+                UserInfo.builder().userId(userInfo.getUserId()).username(userInfo.getUsername())
+                        .build());
         String token = jwtUtils.generateToken(map);
-        TokenRecordVo vo = TokenRecordVo.builder().token(token).userId(SnowflakesUtil.INSTANCE()
-                .nextId()).build();
+        TokenRecordVo vo = TokenRecordVo.builder().token(token)
+                .userId(userInfo.getUserId()).build();
         tokenRecordService.addTokenRecord(vo);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -85,7 +85,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
     @Override
     @SneakyThrows
     public void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException failed) {
+                                           AuthenticationException failed) {
         SecurityContextHolder.clearContext();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

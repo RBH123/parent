@@ -13,6 +13,18 @@ import ruan.gateway.entity.TokenRecord;
 @Mapper
 public interface TokenRecordDao extends BaseMapper<TokenRecord> {
 
+    /**
+     * 插入token记录
+     *
+     * @param tokenRecord
+     */
     void addTokenRecord(TokenRecord tokenRecord);
+
+    /**
+     * 更新token状态
+     *
+     * @param record
+     */
+    void updateTokenRecord(TokenRecord record);
 }
 

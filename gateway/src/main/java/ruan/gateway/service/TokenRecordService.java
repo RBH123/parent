@@ -14,4 +14,5 @@ import ruan.provider.pojo.vo.TokenRecordVo;
  */
 public interface TokenRecordService extends IService<TokenRecord> {
     void addTokenRecord(TokenRecordVo vo);
+    void updateTokenRecord(TokenRecordVo vo);
 }

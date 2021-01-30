@@ -23,4 +23,16 @@
     VALUES (#{recordId}, #{userId}, #{token}, 0, now(), now())
     ON DUPLICATE KEY UPDATE token = #{token} AND status = 0
   </insert>
+
+  <update id="updateTokenRecord">
+    UPDATE token_record SET `status` = #{status} WHERE status = 0
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId}
+      </if>
+      <if test="recordId != null">
+        AND record_id = #{recordId}
+      </if>
+    </where>
+  </update>
 </mapper>
