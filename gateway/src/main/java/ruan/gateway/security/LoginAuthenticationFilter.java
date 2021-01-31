@@ -95,8 +95,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                     CommonResult.FAIL(exception.getCode(), exception.getMessage()).toJson());
         } else {
             response.getWriter().println(CommonResult
-                    .FAIL(ResultEnum.SERVER_ERROR.getCode(), ResultEnum.SERVER_ERROR.getMessage())
-                    .toJson());
+                    .FAIL(ResultEnum.SERVER_ERROR.getCode(), ResultEnum.SERVER_ERROR.getMessage()).toJson());
         }
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
 import ruan.gateway.common.CustomAuthenticationException;
 import ruan.gateway.common.ResultEnum;
+import ruan.gateway.constant.GlobalEnum;
 import ruan.gateway.entity.Users;
 import ruan.gateway.service.TokenRecordService;
 import ruan.gateway.util.JwtUtils;
@@ -40,7 +41,7 @@ public class CustomLogoutHandler implements LogoutHandler {
         if (users == null) {
             throw new CustomAuthenticationException(ResultEnum.TOKEN_PARSE_ERROR.getCode(), ResultEnum.TOKEN_PARSE_ERROR.getMessage());
         }
-        TokenRecordVo recordVo = TokenRecordVo.builder().userId(users.getUserId()).status(1).build();
+        TokenRecordVo recordVo = TokenRecordVo.builder().userId(users.getUserId()).status(GlobalEnum.ONE.getCode()).build();
         tokenRecordService.updateTokenRecord(recordVo);
     }
 }

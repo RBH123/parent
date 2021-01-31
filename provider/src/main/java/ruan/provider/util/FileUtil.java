@@ -1,6 +1,7 @@
 package ruan.provider.util;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -59,7 +61,7 @@ public class FileUtil {
             newFile.createNewFile();
         }
         try (FileInputStream fi = new FileInputStream(file);
-                FileOutputStream fo = new FileOutputStream(newFile)) {
+             FileOutputStream fo = new FileOutputStream(newFile)) {
             FileChannel inputChannel = fi.getChannel();
             FileChannel outputChannel = fo.getChannel();
             int length = 2097152;
@@ -135,8 +137,8 @@ public class FileUtil {
                 }
                 File newFile = new File(tmp.getAbsolutePath().concat("\\").concat(name));
                 try (BufferedInputStream bi = new BufferedInputStream(f.getInputStream());
-                        BufferedOutputStream bo = new BufferedOutputStream(
-                                new FileOutputStream(newFile))) {
+                     BufferedOutputStream bo = new BufferedOutputStream(
+                             new FileOutputStream(newFile))) {
                     byte[] bytes = new byte[1024];
                     int length;
                     while ((length = bi.read(bytes)) > 0) {
@@ -189,16 +191,15 @@ public class FileUtil {
 
     public void keepUpload(File sourceFile, File targetFile, long position) {
         try (RandomAccessFile raInput = new RandomAccessFile(sourceFile, "rw");
-                RandomAccessFile raOutput = new RandomAccessFile(targetFile, "rw")) {
+             RandomAccessFile raOutput = new RandomAccessFile(targetFile, "rw")) {
             raInput.seek(position);
             raOutput.seek(position);
             byte[] bytes = new byte[1024];
             int length;
-            while ((length = raInput.read(bytes)) != -1){
-                raOutput.write(bytes,0,length);
+            while ((length = raInput.read(bytes)) != -1) {
+                raOutput.write(bytes, 0, length);
             }
         } catch (Exception e) {
-
         }
     }
 }
