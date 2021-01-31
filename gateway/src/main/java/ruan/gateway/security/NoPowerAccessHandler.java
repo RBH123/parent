@@ -22,8 +22,7 @@ public class NoPowerAccessHandler implements AccessDeniedHandler {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().println(CommonResult
-                .FAIL(ResultEnum.NO_POWERED.getCode(), ResultEnum.NO_POWERED.getMessage())
-                .toJson());
+                .FAIL(ResultEnum.NO_POWERED.getCode(), ResultEnum.NO_POWERED.getMessage()).toJson());
         response.getWriter().flush();
     }
 }
