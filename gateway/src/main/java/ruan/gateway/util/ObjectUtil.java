@@ -9,6 +9,7 @@ import ruan.gateway.entity.UserInfo;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.math.BigInteger;
 import java.util.Map;
 
 /**
@@ -26,8 +27,15 @@ public class ObjectUtil {
                 String name = descriptor.getName();
                 if (StringUtils.isNoneBlank(name) && map.containsKey(name)) {
                     Object value = map.getOrDefault(name, "");
+                    String typeName = descriptor.getPropertyType().getName();
                     if (value != null) {
-                        descriptor.getWriteMethod().invoke(t,value);
+                        if(value instanceof Long && typeName.contains("BigInteger")){
+                            BigInteger bigInteger = BigInteger.valueOf((Long.parseLong(value.toString())));
+                            descriptor.getWriteMethod().invoke(t,bigInteger);
+                        }else {
+                            descriptor.getWriteMethod().invoke(t,value);
+                        }
+
                     }
                 }
             }

@@ -2,6 +2,8 @@ package ruan.gateway.security;
 
 
 import java.util.Optional;
+
+import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -27,9 +29,12 @@ public class CustomerAuthenticProvider implements AuthenticationProvider {
     @Override
     @SneakyThrows
     public Authentication authenticate(Authentication authentication) {
-        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-        String username = token.getPrincipal().toString();
-        String password = token.getCredentials().toString();
+        UserInfo details = (UserInfo) authentication.getPrincipal();
+        if(details != null && authentication.isAuthenticated()){
+            return new UsernamePasswordAuthenticationToken(details, null, Lists.newArrayList());
+        }
+        String username = details.getUsername();
+        String password = details.getPassword();
         UserInfo userInfo = (UserInfo) userDetailsService.loadUserByUsername(username);
         Optional.ofNullable(userInfo).orElseThrow(
                 () -> new CustomAuthenticationException(ResultEnum.ACCOUNT_NOT_FOUND.getCode(),

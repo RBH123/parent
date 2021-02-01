@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import ruan.gateway.service.TokenRecordService;
 import ruan.gateway.util.JwtUtils;
 
@@ -49,7 +48,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     @SneakyThrows
     public AuthenticationManager manager() {
-        return new ProviderManager(new CustomerAuthenticProvider(userDetailsService));
+        return super.authenticationManager();
     }
 
     @Bean
@@ -75,20 +74,22 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 //登录验证过滤器
-                .addFilterBefore(new LoginAuthenticationFilter(
-                                new CustomerAuthenticProvider(userDetailsService), jwtUtils,tokenRecordService),
-                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(loginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 //权限校验过滤器
-                .addFilterBefore(new JwtAuthenticionFilter(jwtUtils),
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new CustomLogoutFilter(logoutSuccessHandler, logoutHandler),
-                        LogoutFilter.class);
+                .addFilterBefore(new JwtAuthenticionFilter(jwtUtils), BasicAuthenticationFilter.class);
+                //.addFilterBefore(new CustomLogoutFilter(logoutSuccessHandler, logoutHandler), LogoutFilter.class);
         http.headers().cacheControl().disable();
         http.exceptionHandling()
                 //没有权限返回信息
                 .accessDeniedHandler(handler)
                 //校验失败返回异常
                 .authenticationEntryPoint(entryPoint);
+    }
+
+    @Bean
+    public LoginAuthenticationFilter loginAuthenticationFilter(){
+        CustomerAuthenticProvider provider = new CustomerAuthenticProvider(userDetailsService);
+        return new LoginAuthenticationFilter(provider,jwtUtils,tokenRecordService);
     }
 
     @Bean
@@ -99,7 +100,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     @SneakyThrows
     public void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authenticProvider()).userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder());
+        auth.authenticationProvider(authenticProvider()).userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 }

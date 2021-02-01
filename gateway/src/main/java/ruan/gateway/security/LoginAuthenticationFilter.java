@@ -58,8 +58,8 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                     ResultEnum.AUTHENTICATION_PARAM_ERROR.getCode(),
                     ResultEnum.AUTHENTICATION_PARAM_ERROR.getMessage());
         }
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                userInfo.getUsername(), userInfo.getPassword());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userInfo, userInfo.getPassword());
+        token.setDetails(userInfo);
         super.setDetails(request, token);
         return super.getAuthenticationManager().authenticate(token);
     }

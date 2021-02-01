@@ -8,7 +8,7 @@ spring:
       name: root
       password: 217024
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 217024
     url: jdbc:mysql://192.168.17.14:3306/server?useUnicode=true&characterEncoding=UTF-8
