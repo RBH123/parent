@@ -2,7 +2,7 @@ package ruan.gateway.constant;
 
 public enum GlobalEnum {
     ZERO(0, "否"),
-    ONE(1, "shi");
+    ONE(1, "是");
 
     private Integer code;
     private String Message;

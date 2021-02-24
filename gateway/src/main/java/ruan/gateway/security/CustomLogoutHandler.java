@@ -4,6 +4,7 @@ package ruan.gateway.security;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -29,6 +30,9 @@ public class CustomLogoutHandler implements LogoutHandler {
     @Autowired
     private TokenRecordService tokenRecordService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         SecurityContextHolder.clearContext();
@@ -41,6 +45,7 @@ public class CustomLogoutHandler implements LogoutHandler {
         if (users == null) {
             throw new CustomAuthenticationException(ResultEnum.TOKEN_PARSE_ERROR.getCode(), ResultEnum.TOKEN_PARSE_ERROR.getMessage());
         }
+        redisTemplate.delete(users.getUserId());
         TokenRecordVo recordVo = TokenRecordVo.builder().userId(users.getUserId()).status(GlobalEnum.ONE.getCode()).build();
         tokenRecordService.updateTokenRecord(recordVo);
     }

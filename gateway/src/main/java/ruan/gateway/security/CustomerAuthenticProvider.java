@@ -36,23 +36,17 @@ public class CustomerAuthenticProvider implements AuthenticationProvider {
         String username = details.getUsername();
         String password = details.getPassword();
         UserInfo userInfo = (UserInfo) userDetailsService.loadUserByUsername(username);
-        Optional.ofNullable(userInfo).orElseThrow(
-                () -> new CustomAuthenticationException(ResultEnum.ACCOUNT_NOT_FOUND.getCode(),
-                        ResultEnum.ACCOUNT_NOT_FOUND.getMessage()));
+        Optional.ofNullable(userInfo).orElseThrow(() -> new CustomAuthenticationException(ResultEnum.ACCOUNT_NOT_FOUND.getCode(), ResultEnum.ACCOUNT_NOT_FOUND.getMessage()));
         if (UserStatusEnum.LOCK.getCode().equals(userInfo.getStatus())) {
-            throw new CustomAuthenticationException(ResultEnum.ACCOUNT_LOCK.getCode(),
-                    ResultEnum.ACCOUNT_LOCK.getMessage());
+            throw new CustomAuthenticationException(ResultEnum.ACCOUNT_LOCK.getCode(), ResultEnum.ACCOUNT_LOCK.getMessage());
         }
         if (UserStatusEnum.FORBIDDEN.getCode().equals(userInfo.getStatus())) {
-            throw new CustomAuthenticationException(ResultEnum.ACCOUNT_FORBIDDEN.getCode(),
-                    ResultEnum.ACCOUNT_FORBIDDEN.getMessage());
+            throw new CustomAuthenticationException(ResultEnum.ACCOUNT_FORBIDDEN.getCode(), ResultEnum.ACCOUNT_FORBIDDEN.getMessage());
         }
         if (StringUtils.isNotBlank(password) && !password.equals(userInfo.getPassword())) {
-            throw new CustomAuthenticationException(ResultEnum.PASSWORD_ERROR.getCode(),
-                    ResultEnum.PASSWORD_ERROR.getMessage());
+            throw new CustomAuthenticationException(ResultEnum.PASSWORD_ERROR.getCode(), ResultEnum.PASSWORD_ERROR.getMessage());
         }
-        return new UsernamePasswordAuthenticationToken(userInfo, userInfo.getPassword(),
-                userInfo.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userInfo, userInfo.getPassword(), userInfo.getAuthorities());
     }
 
     @Override

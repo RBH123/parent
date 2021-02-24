@@ -1,6 +1,5 @@
 package ruan.gateway.config;
 
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * Author: rocky
@@ -32,8 +30,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         serializer.setObjectMapper(mapper);
         template.setValueSerializer(serializer);
-        // 使用StringRedisSerializer来序列化和反序列化redis的key值
-        template.setKeySerializer(serializer);
+        template.setHashValueSerializer(serializer);
+        template.setKeySerializer(new StringRedisSerialer<>());
+        template.setHashKeySerializer(new StringRedisSerialer<>());
         template.afterPropertiesSet();
         return template;
     }
