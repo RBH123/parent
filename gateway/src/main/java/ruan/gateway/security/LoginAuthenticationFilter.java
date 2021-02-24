@@ -37,11 +37,6 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
     private JwtUtils jwtUtils;
     private TokenRecordService tokenRecordService;
-    private static RedisTemplate redisTemplate;
-
-    static {
-        redisTemplate = BeanUtil.getBean("redisTemplate",RedisTemplate.class);
-    }
 
     LoginAuthenticationFilter(AuthenticationProvider provider, JwtUtils jwtUtils, TokenRecordService tokenRecordService) {
         super();
@@ -86,6 +81,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
         String token = jwtUtils.generateToken(map);
         TokenRecordVo vo = TokenRecordVo.builder().token(token).userId(userInfo.getUserId()).build();
         tokenRecordService.addTokenRecord(vo);
+        RedisTemplate redisTemplate = BeanUtil.getBean("redisTemplate", RedisTemplate.class);
         redisTemplate.opsForValue().setIfAbsent(vo.getUserId(),token);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

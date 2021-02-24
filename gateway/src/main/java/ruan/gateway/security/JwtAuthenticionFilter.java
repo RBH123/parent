@@ -25,32 +25,32 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtAuthenticionFilter extends OncePerRequestFilter {
 
     private JwtUtils jwtUtils;
-    private static RedisTemplate redisTemplate;
-    private static TokenRecordService tokenRecordService;
+    private TokenRecordService tokenRecordService;
 
-    static {
-        redisTemplate = BeanUtil.getBean("redisTemplate", RedisTemplate.class);
-        tokenRecordService = BeanUtil.getBean("tokenRecordService", TokenRecordService.class);
-    }
-
-    public JwtAuthenticionFilter(JwtUtils jwtUtils) {
+    public JwtAuthenticionFilter(JwtUtils jwtUtils,TokenRecordService tokenRecordService) {
         this.jwtUtils = jwtUtils;
+        this.tokenRecordService = tokenRecordService;
     }
 
     @Override
     @SneakyThrows
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
         String authenticion = request.getHeader("Authenticion");
+        RedisTemplate redisTemplate = BeanUtil.getBean("redisTemplate", RedisTemplate.class);
         if (StringUtils.isNotBlank(authenticion)) {
             boolean expired = jwtUtils.isExpired(authenticion);
             Users user = jwtUtils.parseToken(authenticion);
-            if (!expired) {
+            if (expired) {
                 redisTemplate.delete(user.getUserId());
                 tokenRecordService.updateTokenRecord(TokenRecordVo.builder().token(authenticion).userId(user.getUserId()).status(GlobalEnum.ONE.getCode()).build());
+                request.setAttribute("error_code",ResultEnum.TOKEN_OVERDUE.getCode());
+                request.setAttribute("error_msg",ResultEnum.TOKEN_OVERDUE.getMessage());
                 throw new CustomAuthenticationException(ResultEnum.TOKEN_OVERDUE.getCode(), ResultEnum.TOKEN_OVERDUE.getMessage());
             }
             Object token = redisTemplate.opsForValue().get(user.getUserId());
             if (token == null || (token != null && StringUtils.isBlank(token.toString()))) {
+                request.setAttribute("error_code",ResultEnum.TOKEN_OVERDUE.getCode());
+                request.setAttribute("error_msg",ResultEnum.TOKEN_OVERDUE.getMessage());
                 throw new CustomAuthenticationException(ResultEnum.TOKEN_OVERDUE.getCode(), ResultEnum.TOKEN_OVERDUE.getMessage());
             }
             if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {

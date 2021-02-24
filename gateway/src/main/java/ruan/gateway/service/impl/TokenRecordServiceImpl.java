@@ -19,6 +19,8 @@ import ruan.gateway.util.SnowflakesUtil;
 import ruan.provider.pojo.vo.TokenRecordVo;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +58,7 @@ public class TokenRecordServiceImpl extends ServiceImpl<TokenRecordDao, TokenRec
         if (tokenRecord == null) {
             tokenRecordDao.insert(TokenRecord.builder().recordId(SnowflakesUtil.INSTANCE().nextId()).userId(vo.getUserId()).token(vo.getToken()).build());
         } else {
+            tokenRecord.setUpdatedTime(Timestamp.valueOf(LocalDateTime.now()));
             tokenRecord.setToken(vo.getToken());
             tokenRecordDao.updateById(tokenRecord);
         }
