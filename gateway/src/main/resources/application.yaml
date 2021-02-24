@@ -18,6 +18,17 @@ spring:
       idle-timeout: 30
       maximum-pool-size: 50
       minimum-idle: 5
+  redis:
+    host: 192.168.17.14
+    port: 6379
+    database: 0
+    password: 217024
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: 1ms
+        min-idle: 2
 jwt:
   expire: 1800
   secrt: ruan

@@ -1,9 +1,13 @@
 package ruan.gateway.security;
 
 import com.alibaba.fastjson.JSON;
+import com.alicp.jetcache.anno.CreateCache;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +20,7 @@ import ruan.gateway.common.CustomAuthenticationException;
 import ruan.gateway.common.ResultEnum;
 import ruan.gateway.entity.UserInfo;
 import ruan.gateway.service.TokenRecordService;
+import ruan.gateway.util.BeanUtil;
 import ruan.gateway.util.HttpUtil;
 import ruan.gateway.util.JwtUtils;
 import ruan.gateway.util.ObjectUtil;
@@ -25,6 +30,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -32,6 +38,8 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
     private JwtUtils jwtUtils;
 
     private TokenRecordService tokenRecordService;
+
+
 
     LoginAuthenticationFilter(AuthenticationProvider provider, JwtUtils jwtUtils, TokenRecordService tokenRecordService) {
         super();
@@ -74,9 +82,10 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                 UserInfo.builder().userId(userInfo.getUserId()).username(userInfo.getUsername())
                         .build());
         String token = jwtUtils.generateToken(map);
-        TokenRecordVo vo = TokenRecordVo.builder().token(token)
-                .userId(userInfo.getUserId()).build();
+        TokenRecordVo vo = TokenRecordVo.builder().token(token).userId(userInfo.getUserId()).build();
         tokenRecordService.addTokenRecord(vo);
+        RedisTemplate redisTemplate = BeanUtil.getBean("redisTemplate",RedisTemplate.class);
+        redisTemplate.opsForValue().setIfAbsent(vo.getUserId(),token,3*60, TimeUnit.MINUTES);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().println(CommonResult.SUCCESS(token).toJson());
