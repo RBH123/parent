@@ -11,6 +11,7 @@ import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.util.Assert;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Author: rocky
@@ -38,6 +39,9 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
     public byte[] serialize(T t) throws SerializationException {
         if (t == null) {
             return new byte[0];
+        }
+        if(t instanceof  String){
+            return ((String)t).getBytes(StandardCharsets.UTF_8);
         }
         return JSON.toJSONString(t, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
     }
