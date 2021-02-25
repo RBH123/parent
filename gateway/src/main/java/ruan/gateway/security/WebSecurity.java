@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import ruan.gateway.service.TokenRecordService;
 import ruan.gateway.util.JwtUtils;
@@ -76,8 +77,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 //登录验证过滤器
                 .addFilterBefore(loginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 //权限校验过滤器
-                .addFilterBefore(new JwtAuthenticionFilter(jwtUtils,tokenRecordService), BasicAuthenticationFilter.class);
-                //.addFilterBefore(new CustomLogoutFilter(logoutSuccessHandler, logoutHandler), LogoutFilter.class);
+                .addFilterBefore(new JwtAuthenticionFilter(jwtUtils,tokenRecordService), BasicAuthenticationFilter.class)
+                .addFilterBefore(new CustomLogoutFilter(logoutSuccessHandler, logoutHandler), LogoutFilter.class);
         http.headers().cacheControl().disable();
         http.exceptionHandling()
                 //没有权限返回信息

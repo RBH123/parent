@@ -25,7 +25,7 @@
   </insert>
 
   <update id="updateTokenRecord">
-    UPDATE token_record SET `status` = #{status} WHERE status = 0
+    UPDATE token_record SET `status` = #{status}
     <where>
       <if test="userId != null">
         AND user_id = #{userId}

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -14,9 +15,14 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Slf4j
 public class CustomLogoutFilter extends LogoutFilter {
 
+    private LogoutSuccessHandler logoutSuccessHandler;
+    private LogoutHandler logoutHandler;
+
     public CustomLogoutFilter(LogoutSuccessHandler logoutSuccessHandler,
-            LogoutHandler... handlers) {
-        super(logoutSuccessHandler, handlers);
+            LogoutHandler handler) {
+        super(logoutSuccessHandler, new LogoutHandler[]{handler});
+        this.logoutSuccessHandler = logoutSuccessHandler;
+        this.logoutHandler = handler;
     }
 
     public CustomLogoutFilter(String logoutSuccessUrl, LogoutHandler... handlers) {
@@ -29,8 +35,10 @@ public class CustomLogoutFilter extends LogoutFilter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         if (super.requiresLogout(request, response)) {
-            log.info("登出！");
+            this.logoutHandler.logout(request,response,new UsernamePasswordAuthenticationToken(null,null));
+            this.logoutSuccessHandler.onLogoutSuccess(request,response,new UsernamePasswordAuthenticationToken(null,null));
+        }else {
+            chain.doFilter(req,res);
         }
-        chain.doFilter(req, res);
     }
 }
