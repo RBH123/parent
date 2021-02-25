@@ -78,6 +78,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(loginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 //权限校验过滤器
                 .addFilterBefore(new JwtAuthenticionFilter(jwtUtils,tokenRecordService), BasicAuthenticationFilter.class)
+                //注销过滤器
                 .addFilterBefore(new CustomLogoutFilter(logoutSuccessHandler, logoutHandler), LogoutFilter.class);
         http.headers().cacheControl().disable();
         http.exceptionHandling()
