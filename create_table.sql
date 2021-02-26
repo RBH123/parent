@@ -122,3 +122,12 @@ CREATE TABLE `token_record` (
                                 `updated_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                 PRIMARY KEY (`record_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `sql_elapsed_time` (
+                                    `id` bigint(20) NOT NULL COMMENT '主键',
+                                    `sql` text COMMENT 'sql',
+                                    `elapsed_time` int(20) DEFAULT NULL COMMENT 'sql耗时',
+                                    `created_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+                                    `updated_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                                    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='sql耗时';
