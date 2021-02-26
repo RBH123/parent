@@ -3,7 +3,7 @@
 <mapper namespace="ruan.consumer.mapper.UsersDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ruan.common.entity.Users">
+    <resultMap id="BaseResultMap" type="ruan.consumer.entity.Users">
         <id column="user_id" property="userId" />
         <result column="username" property="username" />
         <result column="password" property="password" />

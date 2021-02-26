@@ -3,7 +3,7 @@
 <mapper namespace="ruan.common.mapper.SqlElapsedTimeDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ruan.common.entity.SqlElapsedTime">
+    <resultMap id="BaseResultMap" type="ruan.consumer.entity.SqlElapsedTime">
         <id column="id" property="id" />
         <result column="sql" property="sql" />
         <result column="elapsed_time" property="elapsedTime" />

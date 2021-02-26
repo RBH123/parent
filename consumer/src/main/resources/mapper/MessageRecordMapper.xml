@@ -3,7 +3,7 @@
 <mapper namespace="ruan.common.mapper.MessageRecordDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ruan.common.entity.MessageRecord">
+    <resultMap id="BaseResultMap" type="ruan.consumer.entity.MessageRecord">
         <id column="id" property="id" />
         <result column="message" property="message" />
         <result column="status" property="status" />

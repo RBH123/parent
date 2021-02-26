@@ -40,8 +40,8 @@ public class DataSourceConfig {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource());
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource resource = resolver.getResource("classpath:mapper/*Mapper.xml");
-        bean.setMapperLocations(resource);
+        Resource[] resources = resolver.getResources("classpath:mapper/*Mapper.xml");
+        bean.setMapperLocations(resources);
         bean.setFailFast(true);
         bean.setTypeHandlers(new TypeHandler[]{new BigIntegerTypeHandler()});
         bean.setTypeAliasesPackage("ruan.consumer.entity");

@@ -3,7 +3,7 @@
 <mapper namespace="ruan.common.mapper.GoodsInfoDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ruan.common.entity.GoodsInfo">
+    <resultMap id="BaseResultMap" type="ruan.consumer.entity.GoodsInfo">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="desc" property="desc"/>
