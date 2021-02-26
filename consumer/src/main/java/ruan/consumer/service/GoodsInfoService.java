@@ -1,6 +1,6 @@
-package ruan.common.service;
+package ruan.consumer.service;
 
-import ruan.common.entity.GoodsInfo;
+import ruan.consumer.entity.GoodsInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

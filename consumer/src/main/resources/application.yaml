@@ -5,10 +5,10 @@ spring:
     stream:
       rocketmq:
         binder:
-          name-server: 192.168.24.14:9876
+          name-server: 192.168.17.14:9876
       kafka:
         binder:
-          brokers: 192.168.24.14:9092
+          brokers: 192.168.17.14:9092
       bindings:
         rocketmqinput:
           destination: test-rocketmq
@@ -28,8 +28,19 @@ spring:
     nacos:
       discovery:
         group: nacos-consumer
-        server-addr: 192.168.24.14:8848
+        server-addr: 192.168.17.14:8848
         heart-beat-timeout: 90
         heart-beat-interval: 30
         namespace: 2ca20bb8-f886-461b-8458-549dfba803c0
         service: nacos-consumer
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 217024
+    url: jdbc:mysql://192.168.17.14:3306/server?useUnicode=true&characterEncoding=UTF-8
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: true
+      idle-timeout: 30
+      maximum-pool-size: 50
+      minimum-idle: 5

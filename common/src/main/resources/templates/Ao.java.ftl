@@ -30,8 +30,4 @@ public class ${entity}Ao implements Serializable {
     </#if>
     private ${field.propertyType} ${field.propertyName};
 </#list>
-
-<#list table.fields as field>
-    public static final String ${field.name?upper_case} = "${field.name}";
-</#list>
 }

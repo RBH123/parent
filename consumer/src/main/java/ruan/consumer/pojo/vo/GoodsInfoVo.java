@@ -1,4 +1,4 @@
-package ruan.provider.pojo.vo;
+package ruan.consumer.pojo.vo;
 
 import lombok.*;
 import lombok.EqualsAndHashCode;

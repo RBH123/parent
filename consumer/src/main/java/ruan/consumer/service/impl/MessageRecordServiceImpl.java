@@ -1,7 +1,7 @@
-package ruan.common.service.impl;
+package ruan.consumer.service.impl;
 
-import ruan.common.entity.MessageRecord;
-import ruan.common.mapper.MessageRecordDao;
+import ruan.consumer.entity.MessageRecord;
+import ruan.consumer.mapper.MessageRecordDao;
 import ruan.common.service.MessageRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

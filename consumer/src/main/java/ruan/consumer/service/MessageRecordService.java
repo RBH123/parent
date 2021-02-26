@@ -1,6 +1,6 @@
 package ruan.common.service;
 
-import ruan.common.entity.MessageRecord;
+import ruan.consumer.entity.MessageRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

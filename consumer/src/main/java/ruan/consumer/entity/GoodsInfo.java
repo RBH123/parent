@@ -1,4 +1,4 @@
-package ruan.common.entity;
+package ruan.consumer.entity;
 
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableName;

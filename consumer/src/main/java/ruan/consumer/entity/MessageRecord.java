@@ -1,4 +1,4 @@
-package ruan.common.entity;
+package ruan.consumer.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;

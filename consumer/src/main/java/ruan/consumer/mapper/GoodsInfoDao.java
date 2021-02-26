@@ -1,8 +1,8 @@
-package ruan.common.mapper;
+package ruan.consumer.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import ruan.common.entity.GoodsInfo;
+import ruan.consumer.entity.GoodsInfo;
 
 import java.util.List;
 
